@@ -1,0 +1,37 @@
+Założenia co do projektu
+1. Strona Główna
+  a. Menu
+  b. Ilość pieniędzy do wydania
+  c. Ile już wydano
+  d. Wykres w stosunku do poprzedniego miesiąca (Mediana, średnia wydatków itd)
+  e. Ile zaoszczędzono
+  f. Dodaj wydatek
+  g. Wykres pokazujący na co wydajmy
+2. Menu
+  a. Logo
+  b. Użytkownik (Podstawowe dane, zmiana mail, zmiana hasła)
+  c. MainPage
+  d. Szczegółowe dane wydatków (Historia pokazane ile na jakiś okres wydajemy na jedzienie itd)
+  e. Tryb zarządzania (Dodawanie kategorii, zmiany budżetów itd)
+  f. Wyloguj
+3. Szczegóły
+  a. Historia wydatków
+  b. Historia celów czy zrealizowane czy nie
+  c. Suma zaoszczędzonych pieniędzy
+4. Tryb zarządzania
+  a. Dodawanie kategorii
+  b. Zmiana budżetu
+  c. Rozkład pieniędzy na cele itd
+  d. Oszczędzanie
+  
+
+
+Technologie
+1. Vue
+2. Node js
+3. Mongo db
+4. Express
+5. Jakieś fonty 
+6. Scss
+7. Styl css np. bem
+8. Coś do wykresów
