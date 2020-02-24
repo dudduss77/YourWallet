@@ -12,8 +12,11 @@ export default {
 
 <style lang="scss" scoped>
   .logo {
+    position: relative;
+    z-index: 2;
     background: #3D4A64;
     height: 60px;
+    width: 100%;
     display: flex;
     align-items: center;
     &__title {
