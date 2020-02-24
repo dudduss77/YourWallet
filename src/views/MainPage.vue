@@ -1,7 +1,8 @@
 <template>
   <div class="mainPage">
-    <Logo></Logo>
-    <Menu></Menu>
+    <Logo class="mainPage__logo"></Logo>
+    <Menu class="mainPage__menu"></Menu>
+    <router-view class="mainPage__content"/>
   </div>
 </template>
 
@@ -20,6 +21,22 @@ export default {
 <style lang="scss" scoped>
   .mainPage {
     width: 100%;
-    min-height: 100%;
+    min-height: 100vh !important;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 60px 1fr;
+    grid-template-areas: 
+      "logo logo"
+      "menuBlock contentBlock";
+
+    &__logo {
+      grid-area: logo;
+    }
+    &__menu {
+      grid-area: menuBlock;
+    }
+    &__content  {
+      grid-area: contentBlock;
+    }
   }
 </style>

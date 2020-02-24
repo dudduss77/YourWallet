@@ -29,9 +29,6 @@ export default {
 
 <style lang="scss" scoped>
  .menu {
-   position: absolute;
-   top: 0;
-   z-index: 1;
    width: 250px;
    background: #43516D;
    min-height: 100%;

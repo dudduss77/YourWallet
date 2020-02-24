@@ -20,16 +20,19 @@ h3 {
 h4 {
   font-size: 0.8em;
 }
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 body {
-  width: 100vw;
-  height: 100vh;
-  overflow-x: hidden;
+  overflow-y: auto;
 }
 #app {
   font-family: 'Roboto', sans-serif;
   color: #fff;
   font-size: 16px;
   width: 100%;
-  height: 100%;
+  min-height: 100% !important;
 }
 </style>
