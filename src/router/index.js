@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 //import Home from '../views/Home.vue'
 import MainPage from '../views/MainPage.vue'
 import Dashboard from '../views/Dashboard.vue'
+import LoginPage from '../views/LoginPage.vue'
 
 Vue.use(VueRouter)
 
@@ -18,6 +19,11 @@ const routes = [
         component: Dashboard
       }
     ]
+  },
+  {
+    path: '/login',
+    name: 'LoginPage',
+    component: LoginPage
   }
   // {
   //   path: '/about',

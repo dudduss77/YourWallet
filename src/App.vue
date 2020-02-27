@@ -7,9 +7,12 @@
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
-div, body, h2, h3, h4 {
+div, body, h1, h2, h3, h4 {
   margin: 0px;
   padding: 0px;
+}
+h1 {
+  font-size: 2.5em;
 }
 h2 {
   font-size: 2em;

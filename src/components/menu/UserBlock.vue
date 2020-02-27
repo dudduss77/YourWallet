@@ -25,7 +25,7 @@ export default {
 
 <style lang="scss" scoped>
   .userBlock {
-    margin-top: 85px;
+    margin-top: 25px;
     width: 100%;
     height: 50px;
     display: flex;
