@@ -4,11 +4,15 @@
     <!-- <header-block title="Wszystko zależy od ciebie" class="loginPage__header"/> -->
     <login-block v-if="register===false" v-on:changeState="this.setRegister" class="loginPage__login" title="Logowanie"/>
     <register-block v-if="register" v-on:changeState="this.setRegister" class="loginPage__register" title="Rejestracja"/>
-    <img src="../assets/LoginPage1.jpg" alt="Zdjęcie 1" class="loginPage__photoBig loginPage--photo1"/>
-    <img src="../assets/LoginPage2.jpg" alt="Zdjęcie 1" class="loginPage__photoBig loginPage--photo2"/>
-    <img src="../assets/LoginPage3.jpg" alt="Zdjęcie 1" class="loginPage__photoSmall loginPage--photo3"/>
-    <img src="../assets/LoginPage4.jpg" alt="Zdjęcie 1" class="loginPage__photoBig loginPage--photo4"/>
-    <img src="../assets/LoginPage5.jpg" alt="Zdjęcie 1" class="loginPage__photoSmall loginPage--photo5"/>
+
+    <div class="loginPage__leftWrapper">
+      <img src="../assets/LoginPage1.jpg" alt="Zdjęcie 1" class="loginPage__leftWrapper__photoBig"/>
+      <img src="../assets/LoginPage3.jpg" alt="Zdjęcie 1" class="loginPage__leftWrapper__photoSmall"/>
+    </div>
+    <div class="loginPage__rightWrapper">
+      <img src="../assets/LoginPage2.jpg" alt="Zdjęcie 1" class="loginPage__rightWrapper__photoBig"/>
+      <img src="../assets/LoginPage5.jpg" alt="Zdjęcie 1" class="loginPage__rightWrapper__photoSmall"/>
+    </div>
   </div>
 </template>
 
@@ -43,13 +47,11 @@ export default {
     width: 100vw;
     height: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 60px 25px 488px 1fr;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: 60px 1fr;
     grid-template-areas: 
     "logo logo logo"
-    "headerTop headerTop headerTop"
-    "photo1 inputBlock photo2"
-    "photo3 photo4 photo5";
+    "leftWrapper inputBlock rightWrapper";
     position: absolute;
     overflow-y: auto;
     &__logo {
@@ -74,31 +76,31 @@ export default {
       justify-self: center;
       align-self: center;
     }
-    &__photoBig {
-      justify-self: center;
-      align-self: center;
-      box-shadow: 0 0 2px #555;
+    &__leftWrapper {
+      grid-area: leftWrapper;
     }
-    &__photoSmall {
-      justify-self: center;
-      align-self: center;
-      box-shadow: 0 0 2px #555;
+    &__rightWrapper {
+      grid-area: rightWrapper;
     }
-    &--photo1 {
-      grid-area: photo1;
-    }
-    &--photo2 {
-      grid-area: photo2;
-    }
-    &--photo3 {
-      grid-area: photo3;
-    }
-    &--photo4 {
-      grid-area: photo4;
-      margin-top: 10px;
-    }
-    &--photo5 {
-      grid-area: photo5;
-    }
+    &__leftWrapper, &__rightWrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px;
+      &__photoBig {
+        justify-self: center;
+        align-self: center;
+        box-shadow: 0 0 2px #555;
+        max-width: 90%;
+      }
+      &__photoSmall {
+        justify-self: center;
+        align-self: center;
+        box-shadow: 0 0 2px #555;
+        margin-top: 10px;
+        max-width: 90%;
+      }
+    } 
   }
 </style>

@@ -18,8 +18,8 @@ export default {
 
 <style lang="scss" scoped>
   .mediumBlock {
-    width: 500px;
-    height: 300px;
+    width: 400px;
+    height: 250px;
     background: #F1F1F2;
     box-shadow: 0px 0px 4px #555;
     display: flex;
@@ -37,7 +37,7 @@ export default {
       overflow-y: auto;
       overflow-x: hidden;
       // scrollbar-width: 1px;
-      height: 250px;
+      height: 200px;
       color: #888;
     }
   }

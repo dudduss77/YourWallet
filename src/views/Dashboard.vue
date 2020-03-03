@@ -54,7 +54,7 @@ export default {
     }
     &__wrapper {
       width: 100%;
-      margin-top: 60px;
+      margin-top: 40px;
       display: flex;
       justify-content: space-around;
     }
