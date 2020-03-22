@@ -1,7 +1,6 @@
 <template>
   <div class="loginPage">
     <header-block title="Twój Portfel" class="loginPage__logo"/>
-    <!-- <header-block title="Wszystko zależy od ciebie" class="loginPage__header"/> -->
     <login-block v-if="register===false" v-on:changeState="this.setRegister" class="loginPage__login" title="Logowanie"/>
     <register-block v-if="register" v-on:changeState="this.setRegister" class="loginPage__register" title="Rejestracja"/>
 
@@ -102,5 +101,17 @@ export default {
         max-width: 90%;
       }
     } 
+  }
+
+  @media screen  and (max-width: 1000px) {
+    .loginPage {
+      grid-template-columns: 1fr;
+      grid-template-rows: 60px 1fr 1fr 1fr;
+      grid-template-areas: 
+      "logo"
+      "leftWrapper"
+      "inputBlock"
+      "rightWrapper";
+      }
   }
 </style>
