@@ -29,16 +29,15 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 50px;
+      min-height: 50px;
       background: #3D4A64;
       font-size: 1.5em;
     }
     &__content {
       overflow-y: auto;
       overflow-x: hidden;
-      // scrollbar-width: 1px;
-      height: 200px;
       color: #888;
+      height: 100%;
     }
   }
 </style>

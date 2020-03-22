@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import InputBlock from '../login/InputBlock.vue'
+import InputBlock from '..//reusable/InputBlock.vue'
 import ButtonComponent from '../reusable/ButtonComponent.vue'
 
 export default {

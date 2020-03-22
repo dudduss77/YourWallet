@@ -1,7 +1,7 @@
 <template>
   <div class="inputBlock">
     <label class="inputBlock__label">{{labelName}}</label>
-    <input class="inputBlock__input" :type="inputType"/>
+    <input :value="value" v-on:input="$emit('input', $event.target.value)" class="inputBlock__input" :type="inputType"/>
   </div>
 </template>
 
@@ -10,7 +10,18 @@ export default {
   name: 'InputBlock',
   props: {
     labelName: String,
-    inputType: String
+    inputType: String,
+    value: String
+  },
+  data() {
+    return {
+      inputValue: ""
+    }
+  },
+  methods: {
+    // sendValue() {
+    //   this.$emit('input', $event.target.value)
+    // }
   }
 }
 </script>
