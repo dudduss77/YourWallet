@@ -2,11 +2,12 @@
   <div class="registerBlock">
     <div class="registerBlock__header">{{title}}</div>
     <div class="registerBlock__content">
-      <input-block labelName="Podaj adres email" inputType="text"/>
-      <input-block labelName="Podaj Hasło" inputType="password"/>
-      <input-block labelName="Powtórz Hasło" inputType="password"/>
-      <input-block labelName="Imię lub Nick" inputType="text"/>
-      <button-component class="registerBlock__content__button" title="Zarejestruj się"/>
+      <h3 class="registerBlock__content__errMsg">{{this.newUser.errMsg}}</h3>
+      <input-block style="padding: 0" v-model="newUser.email" labelName="Podaj adres email" inputType="text"/>
+      <input-block v-model="newUser.password" labelName="Podaj Hasło" inputType="password"/>
+      <input-block v-model="newUser.repPassword" labelName="Powtórz Hasło" inputType="password"/>
+      <input-block v-model="newUser.name" labelName="Imię lub Nick" inputType="text"/>
+      <button-component :buttonFunc="this.register" class="registerBlock__content__button" title="Zarejestruj się"/>
       <button-component :buttonFunc="this.returnToLogin" class="registerBlock__content__button--returnToLogin" title="Powrót do logowania"/>
     </div>
   </div>
@@ -21,6 +22,17 @@ export default {
   props: {
     title: String
   },
+  data() {
+    return {
+      newUser: {
+        email: "",
+        password: "",
+        repPassword: "",
+        name: "",
+        errMsg: ""
+      }
+    }
+  },
   components: {
     InputBlock,
     ButtonComponent
@@ -28,6 +40,13 @@ export default {
   methods: {
     returnToLogin() {
       this.$emit('changeState');
+    },
+    register() {
+      if((this.newUser.email) && (this.newUser.password) && (this.newUser.repPassword) && (this.newUser.name)) {
+        //Kod z api lub firebase
+      } else {
+        this.newUser.errMsg = "Wszystkie pola wymagane";
+      }
     }
   }
 }
@@ -69,6 +88,11 @@ export default {
       &__text {
         margin-top: 20px;
         color: #888;
+      }
+      &__errMsg {
+        color: #ff0000;
+        margin-top: 10px;
+        height: 29px;
       }
     }
   }

@@ -2,10 +2,11 @@
   <div class="loginBlock">
     <div class="loginBlock__header">{{title}}</div>
     <div class="loginBlock__content">
-      <input-block labelName="Adres e-mail" inputType="text"/>
-      <input-block labelName="Hasło" inputType="password"/>
+      <h3 class="loginBlock__content__errMsg">{{this.user.errMsg}}</h3>
+      <input-block style="padding: 0" v-model="user.email" labelName="Adres e-mail" inputType="text"/>
+      <input-block v-model="user.password" labelName="Hasło" inputType="password"/>
       <h3 class="loginBlock__content__link">Zapomniałem hasła</h3>
-      <button-component class="loginBlock__content__button" title="Zaloguj się"/>
+      <button-component :buttonFunc="this.login" class="loginBlock__content__button" title="Zaloguj się"/>
       <h3 class="loginBlock__content__text">Nie masz konta?</h3>
       <button-component :buttonFunc="this.registerButton" class="loginBlock__content__button--register" title="Zarejestruj się"/>
     </div>
@@ -21,9 +22,25 @@ export default {
   props: {
     title: String
   },
+  data() {
+    return {
+      user: {
+        email: "",
+        password: "",
+        errMsg: ""
+      }
+    }
+  },
   methods: {
     registerButton() {
       this.$emit('changeState');
+    },
+    login() {
+      if((this.user.email) && (this.user.password)) {
+        //Kod z api lub firebase
+      } else {
+        this.user.errMsg = "Wszystkie pola wymagane";
+      }
     }
   },
   components: {
@@ -69,6 +86,11 @@ export default {
       &__text {
         margin-top: 20px;
         color: #888;
+      }
+      &__errMsg {
+        color: #ff0000;
+        margin-top: 10px;
+        height: 29px;
       }
     }
   }
