@@ -11,10 +11,11 @@
 
       <div class="addComponent__form__wrapper" v-if="selected == 'expense'">
         <input-block v-model="expense.name" labelName="Nazwa wydatku" inputType="text"/>
+        <input-block v-model="expense.date" labelName="Data" inputType="date"/>
         <label style="margin-top: 20px" class="addComponent__form__label">Kategoria</label>
         <select v-model="expense.category" class="addComponent__form__select">
 
-          <option v-for="item in cat" :key="item.id" :value="item.val">{{item.name}}</option>
+          <option v-for="item in cat" :key="item.id" :value="item.id">{{item.name}}</option>
           
         </select>
         <input-block v-model="expense.price" labelName="Cena" inputType="text"/>
@@ -43,7 +44,8 @@ export default {
       errMsg: "",
       expense: {
         name: "",
-        category: "eat",
+        date: "",
+        category: 1,
         price: null,
       },
       goal: {
@@ -57,12 +59,12 @@ export default {
     addMethod() {
       var numbers = /^[0-9]+$/;
       if(this.selected == "expense") {
-        if((this.expense.name) && (this.expense.category) && (this.expense.price) && (this.expense.price.match(numbers))) {
+        if((this.expense.name) && (this.expense.date) && (this.expense.category) && (this.expense.price) && (this.expense.price.match(numbers))) {
           //alert(this.expense.name + " " + this.expense.category + " " + this.expense.price);
           //Api
 
           this.expense.name = "";
-          this.expense.category = "eat";
+          this.expense.category = 1;
           this.expense.price = null;
         } else {
           this.errMsg = "Wszystkie pola wymagane"

@@ -1,17 +1,14 @@
 [
   {
+    "id": 0,
+    "name": "Jedzenie"
+  },
+  {
     "id": 1,
-    "name": "Jedzenie",
-    "val": "eat"
+    "name": "Hobby"
   },
   {
     "id": 2,
-    "name": "Hobby",
-    "val": "hobby"
-  },
-  {
-    "id": 3,
-    "name": "Stałe",
-    "val": "const"
+    "name": "Stałe"
   }
 ]

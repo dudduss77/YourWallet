@@ -5,7 +5,7 @@
     <div class="menu__nav">
       <link-block linkName="Pulpit" linkTo="/"></link-block>
       <link-block linkName="Szczegóły" linkTo="/details"></link-block>
-      <link-block linkName="Tryb zarządzania" linkTo="/zarzadzanie"></link-block>
+      <link-block linkName="Tryb zarządzania" linkTo="/management"></link-block>
     </div>
     <sign-out-block></sign-out-block>
   </div>
