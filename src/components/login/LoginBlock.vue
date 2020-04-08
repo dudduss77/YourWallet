@@ -16,6 +16,7 @@
 <script>
 import InputBlock from '../reusable/InputBlock.vue'
 import ButtonComponent from '../reusable/ButtonComponent.vue'
+import firebase from 'firebase'
 
 export default {
   name: 'LoginBlock', 
@@ -36,8 +37,21 @@ export default {
       this.$emit('changeState');
     },
     login() {
+      const vm = this;
       if((this.user.email) && (this.user.password)) {
-        //Kod z api lub firebase
+        firebase.auth().signInWithEmailAndPassword(this.user.email, this.user.password).then(
+          () => {
+            this.$router.replace('dashboard');
+          }
+        ).catch(function(error) {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          console.log(errorMessage);
+          console.log(errorCode);
+          if(errorCode) {
+            vm.user.errMsg = "Zły login lub hasło"
+          }
+        });
       } else {
         this.user.errMsg = "Wszystkie pola wymagane";
       }

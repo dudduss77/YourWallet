@@ -2,7 +2,7 @@
   <div class="menu">
     <user-block imgSrc="userImg" userName="Damian Karbowiak"></user-block>
     <div class="menu__nav">
-      <link-block linkName="Pulpit" linkTo="/"></link-block>
+      <link-block linkName="Pulpit" linkTo="/dashboard"></link-block>
       <link-block linkName="Szczegóły" linkTo="/details"></link-block>
       <link-block linkName="Tryb zarządzania" linkTo="/management"></link-block>
     </div>
