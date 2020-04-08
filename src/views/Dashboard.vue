@@ -15,7 +15,7 @@
         Wykres
       </medium-block>
       <medium-block title="Cele">
-        <goal-block v-for="item in goalList" :key="item.id" :goal="item.name" :moneyOne="item.nowMoney" :moneyTwo="item.allMoney - item.nowMoney"/>
+        <goal-block v-for="item in goalList" :key="item.id" :goal="item.name" :moneyOne="item.nowMoney" :moneyTwo="(item.allMoney - item.nowMoney).toString()"/>
       </medium-block>
     </div>
   </div>

@@ -18,7 +18,7 @@
     <medium-block class="details__chart" title="Wykres wydatków">Wykres</medium-block>
 
     <medium-block class="details__goal" title="Historia celi">
-      <goal-block v-for="item in goalList" :key="item.id" :goal="item.name" :moneyOne="item.nowMoney" :moneyTwo="item.allMoney - item.nowMoney"/>
+      <goal-block v-for="item in goalList" :key="item.id" :goal="item.name" :moneyOne="item.nowMoney" :moneyTwo="(item.allMoney - item.nowMoney).toString()"/>
     </medium-block>
   </div>
 </template>
