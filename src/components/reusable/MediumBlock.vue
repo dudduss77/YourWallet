@@ -38,6 +38,9 @@ export default {
       overflow-x: hidden;
       color: #888;
       height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   }
 </style>

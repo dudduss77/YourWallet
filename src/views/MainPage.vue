@@ -1,7 +1,8 @@
 <template>
   <div class="mainPage">
-    <Logo class="mainPage__logo"></Logo>
+    <Logo v-on:addChange="this.addShow" class="mainPage__logo"></Logo>
     <Menu class="mainPage__menu"></Menu>
+    <add-component v-on:addChange="this.addShow"  v-if="addState"/>
     <router-view class="mainPage__content"/>
   </div>
 </template>
@@ -9,11 +10,23 @@
 <script>
 import Logo from '../components/mainPage/Logo.vue'
 import Menu from '../components/mainPage/Menu.vue'
+import AddComponent from '../components/add/AddComponent.vue'
 export default {
   name: "MainPage",
+  data() {
+    return {
+      addState: false
+    }
+  },
+  methods: {
+    addShow() {
+      this.addState = !this.addState;
+    }
+  },
   components: {
     Logo,
-    Menu
+    Menu,
+    AddComponent
   }
 }
 </script>

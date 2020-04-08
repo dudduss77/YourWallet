@@ -5,13 +5,14 @@ import MainPage from '../views/MainPage.vue'
 import Dashboard from '../views/Dashboard.vue'
 import LoginPage from '../views/LoginPage.vue'
 import UserSettings from '../views/UserSettings.vue'
+import Details from '../views/Details.vue'
+import Management from '../views/Management.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'MainPage',
     component: MainPage,
     children: [
       {
@@ -23,6 +24,16 @@ const routes = [
         path: 'userSettings',
         name: 'UserSettings',
         component: UserSettings
+      },
+      {
+        path: 'details',
+        name: 'Details',
+        component: Details
+      },
+      {
+        path: 'management',
+        name: 'Management',
+        component: Management
       }
     ]
   },
