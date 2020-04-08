@@ -45,7 +45,7 @@ export default {
       expense: {
         name: "",
         date: "",
-        category: 1,
+        category: 0,
         price: null,
       },
       goal: {
@@ -57,25 +57,26 @@ export default {
   },
   methods: {
     addMethod() {
-      var numbers = /^[0-9]+$/;
       if(this.selected == "expense") {
-        if((this.expense.name) && (this.expense.date) && (this.expense.category) && (this.expense.price) && (this.expense.price.match(numbers))) {
+        if((this.expense.name) && (this.expense.date) && (this.expense.category) && (this.expense.price) && (!isNaN(this.expense.price))) {
           //alert(this.expense.name + " " + this.expense.category + " " + this.expense.price);
-          //Api
+          //Api dodawanie wydatku
 
           this.expense.name = "";
-          this.expense.category = 1;
+          this.expense.category = 0;
           this.expense.price = null;
+          this.errMsg = "";
         } else {
           this.errMsg = "Wszystkie pola wymagane"
         }
       } else {
-        if((this.goal.name) && (this.goal.cost) && (this.goal.cost.match(numbers))) {
+        if((this.goal.name) && (this.goal.cost) && (!isNaN(this.goal.cost))) {
           //alert(this.goal.name + " " + this.goal.cost);
-          //Api
+          //Api dodawanie celu
 
           this.goal.name = "";
           this.goal.cost = null;
+          this.errMsg = "";
         } else {
           this.errMsg = "Wszystkie pola wymagane"
         }

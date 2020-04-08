@@ -104,25 +104,23 @@ export default {
   },
   methods: {
     budgetSave() {
-      var numbers = /^[0-9]+$/;
-      if((this.saveBudget.budget) && (this.saveBudget.budget.match(numbers))) {
-        alert(this.saveBudget.budget);
+      if((this.saveBudget.budget) && (!isNaN(this.saveBudget.budget))) {
+        //Api zapis budżetu
         this.saveBudget.errMsg = ""
       } else {
         this.saveBudget.errMsg = "Podaj liczbę";
       }
     },
     moneySave() {
-      var numbers = /^[0-9]+$/;
       if(this.saveMoney.saveType == 'two') {
-        if((this.saveMoney.moneyCount) && (this.saveMoney.moneyCount.match(numbers))) {
-          //Api
+        if((this.saveMoney.moneyCount) && (!isNaN(this.saveMoney.moneyCount))) {
+          //Api przelewanie określonej ilości co miesiąć
           this.saveMoney.errMsg = "";
         } else {
           this.saveMoney.errMsg = "Podaj liczbę";
         }
       } else {
-        //Api
+        //Api reszta z miesiąca do oszczędności
       }
     },
 

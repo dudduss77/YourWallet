@@ -31,7 +31,8 @@ export default {
       this.$emit('editGoal');
     },
     editGoal() {
-      if((this.goalName) && (this.goalMoney)) {
+      if((this.goalName) && (this.goalMoney) && (!isNaN(this.goalMoney))) {
+        //Api edycja celu
         this.errMsg = '';
         this.$emit('editGoal');
       } else {

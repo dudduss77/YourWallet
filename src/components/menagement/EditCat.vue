@@ -34,6 +34,7 @@ export default {
     editCategory() {
       var flag = false;
       if(this.catName) {
+        //Tutaj api tego foreach można wyjebać to był test czy zmienia w statycznym json
         db.forEach(element => {
           if(element.id == this.editValue.id) {
             element.name = this.catName;
@@ -42,6 +43,7 @@ export default {
           }
         });
         if(flag == true) {
+          //Tutaj dodawanie nowej kategorii nwm czy to zadziała tak jak ma działać to zależy jak będzie sprawdzane w firebase to wyżej
           db.push({id: 4, name: this.catName});
         }
         this.errMsg = "";

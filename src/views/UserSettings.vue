@@ -77,8 +77,8 @@ export default {
         errMsg: ""
       },
       userData: {
-        firstName: "Damian",
-        name: "Karbowiak",
+        firstName: "Damian", //Pobranie danych z bazy
+        name: "Karbowiak", //Pobranie danych z bazy
         edit: false,
       }
     }

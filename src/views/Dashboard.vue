@@ -15,8 +15,7 @@
         Wykres
       </medium-block>
       <medium-block title="Cele">
-        <goal-block goal="Wakacje" moneyOne="1000" moneyTwo="2000"/>
-        <goal-block goal="Remont" moneyOne="500" moneyTwo="5000"/>
+        <goal-block v-for="item in goalList" :key="item.id" :goal="item.name" :moneyOne="item.nowMoney" :moneyTwo="item.allMoney - item.nowMoney"/>
       </medium-block>
     </div>
   </div>
@@ -27,14 +26,16 @@ import HeaderBlock from '../components/reusable/HeaderBlock.vue'
 import SmallBlock from '../components/reusable/SmallBlock.vue'
 import MediumBlock from '../components/reusable/MediumBlock.vue'
 import GoalBlock from '../components/goals/GoalBlock.vue'
+import goal from '../db/goal.json'
 
 export default {
   name: "Dashboard",
   data() {
     return {
-      avaMoney: "500",
-      issMoney: "1000.56",
-      savMoney: "20.34"
+      avaMoney: "500", //Wyświetla dostępne pięniądze pobrać z bazy i pwoinno być git 
+      issMoney: "1000.56", //Wyświetla wydane pienidze w danym miesiącu
+      savMoney: "20.34", // Wyświetla zaoszczędzone pieniądze w danym miesiącu
+      goalList: goal //Lista celi json z bazy danych
     }
   },
   components: {

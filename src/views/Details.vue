@@ -6,22 +6,19 @@
 
       <div class="details__history__items">
         <item-component data="Data" product="Produkt" category="Kategoria" price="Cena" />
-        <item-component data="17.03.2020" product="Mleko" category="Jedzenie" price="2.49" />
-        <item-component data="17.03.2020" product="Mleko" category="Jedzenie" price="2.49" />
-        <item-component data="17.03.2020" product="Mleko" category="Jedzenie" price="2.49" />
+        <item-component v-for="item in expenseList" :key="item.id"  :data="item.date" :product="item.name" :category="categoryList[item.category].name" :price="item.price" />
       </div>
     </medium-block>
 
     <div class="details__wrapper">
-      <small-block title="W sumie zaoszczędzono" moneyCount="2000 PLN" />
-      <small-block title="W sumie wydano" moneyCount="30000 PLN" />
+      <small-block title="W sumie zaoszczędzono" :moneyCount="moneyOne + 'PLN'" />
+      <small-block title="W sumie wydano" :moneyCount="moneyTwo + 'PLN'" />
     </div>
 
     <medium-block class="details__chart" title="Wykres wydatków">Wykres</medium-block>
 
     <medium-block class="details__goal" title="Historia celi">
-      <goal-block goal="Wakacje" moneyOne="1000" moneyTwo="2000" />
-      <goal-block goal="Remont" moneyOne="500" moneyTwo="5000" />
+      <goal-block v-for="item in goalList" :key="item.id" :goal="item.name" :moneyOne="item.nowMoney" :moneyTwo="item.allMoney - item.nowMoney"/>
     </medium-block>
   </div>
 </template>
@@ -32,19 +29,26 @@ import SmallBlock from "../components/reusable/SmallBlock.vue";
 import GoalBlock from "../components/goals/GoalBlock.vue";
 import ItemComponent from "../components/details/ItemComponent.vue";
 import DetailsForm from "../components/details/DetailsForm.vue";
+import goal from '../db/goal.json'
+import expense from '../db/expense.json'
+import db from '../db/db.json'
+
 export default {
   name: "Details",
   data() {
     return {
-      moneyOne: "2000",
-      moneyTwo: "30000",
+      moneyOne: "3000", //Wyświetla ile w sumie zaoszczędzono wystarczy pobrać z bazy i powinno działać 
+      moneyTwo: "35000", //Wyświetla ile w sumie wydano wystarczy pobrać z bazy i powinno działać
       searchSettings: {},
+      goalList: goal, //Lista celów zamiast goal podpiąć json z bazy i będzie git
+      expenseList: expense, //Lista wydatków tak samo jak wyżej tylko zalezna od parametrów searchSettings
+      categoryList: db //Lista kategorii potrzebna do wyświetlenia odpowidnio kategorii w wydatkach chyba że inaczej to zaprogramujesz
     }
   },
   methods: {
     displayItems(e){
       this.searchSettings = e;
-      //api
+      //W searchSettings masz searchType: det lub cat uzależnia wyświetlanie czy szczegóły czy kategorie, fromDate, oraz toDate od daty do daty
     }
   },
   components: {

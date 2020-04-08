@@ -14,7 +14,7 @@
       </select>
 
       <input-block v-model="price" labelName="Cena" inputType="text"/>
-      <button-component class="editExpense__form__button" title="Zapisz" />
+      <button-component :buttonFunc="this.editExpense" class="editExpense__form__button" title="Zapisz" />
       <button-component :buttonFunc="this.cancelClick" style="margin-top: 0" class="editExpense__form__button" title="Anuluj" />
     </div>
   </div>
@@ -43,7 +43,16 @@ export default {
   methods: {
     cancelClick() {
       this.$emit('expenseEdit');
-    }
+    },
+    editExpense() {
+      if((this.name) && (this.date) && (this.category || !this.category) && (this.price) && (!isNaN(this.price))) {
+        //api edycja wydatku
+        this.errMsg = "";
+        this.$emit('expenseEdit');
+      } else {
+        this.errMsg = "Wypełni wszystkie pola";
+      }
+    } 
   },
   components: {
     InputBlock,
