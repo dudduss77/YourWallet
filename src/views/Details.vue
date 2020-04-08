@@ -15,8 +15,6 @@
       <small-block title="W sumie wydano" :moneyCount="moneyTwo + 'PLN'" />
     </div>
 
-    <medium-block class="details__chart" title="Wykres wydatków">Wykres</medium-block>
-
     <medium-block class="details__goal" title="Historia celi">
       <goal-block v-for="item in goalList" :key="item.id" :goal="item.name" :moneyOne="item.nowMoney" :moneyTwo="(item.allMoney - item.nowMoney).toString()"/>
     </medium-block>
@@ -66,11 +64,10 @@ export default {
   background: #e7e7e8;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 0.5fr 1fr 1fr;
+  grid-template-rows: 0.5fr 1fr;
   grid-template-areas:
     "left rightTop"
-    "left rightMiddle"
-    "left rightBottom";
+    "left rightMiddle";
   &__history {
     align-self: center;
     justify-self: center;
@@ -96,15 +93,11 @@ export default {
     justify-content: space-around;
     width: 100%;
   }
-  &__chart {
+  &__goal {
     grid-area: rightMiddle;
     align-self: center;
     justify-self: center;
-  }
-  &__goal {
-    grid-area: rightBottom;
-    align-self: center;
-    justify-self: center;
+    height: 400px;
   }
 }
 </style>

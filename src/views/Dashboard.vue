@@ -9,10 +9,10 @@
     <header-block class="dashboard__header" title="Statystyki"></header-block>
     <div class="dashboard__wrapper">
       <medium-block title="Poszczególne miesiące">
-        Wykres
+        <month-chart style="height: 200px" :chartData="chartDat"/>
       </medium-block>
       <medium-block title="Rozkład wydatków">
-        Wykres
+        <pie-chart style="height: 200px" :chartData="pieCharData"/>
       </medium-block>
       <medium-block title="Cele">
         <goal-block v-for="item in goalList" :key="item.id" :goal="item.name" :moneyOne="item.nowMoney" :moneyTwo="(item.allMoney - item.nowMoney).toString()"/>
@@ -26,6 +26,10 @@ import HeaderBlock from '../components/reusable/HeaderBlock.vue'
 import SmallBlock from '../components/reusable/SmallBlock.vue'
 import MediumBlock from '../components/reusable/MediumBlock.vue'
 import GoalBlock from '../components/goals/GoalBlock.vue'
+
+import MonthChart from '../components/charts/MonthChart.vue'
+import PieChart from '../components/charts/PieChart.vue'
+
 import goal from '../db/goal.json'
 
 export default {
@@ -35,6 +39,11 @@ export default {
       avaMoney: "500", //Wyświetla dostępne pięniądze pobrać z bazy i pwoinno być git 
       issMoney: "1000.56", //Wyświetla wydane pienidze w danym miesiącu
       savMoney: "20.34", // Wyświetla zaoszczędzone pieniądze w danym miesiącu
+      chartDat: [300, 400, 1000, 500],
+      pieCharData: {
+        name: ['Jedznie', 'Hobby', 'Stałe'],
+        count: [20, 30 ,40],
+      },
       goalList: goal //Lista celi json z bazy danych
     }
   },
@@ -42,7 +51,9 @@ export default {
     HeaderBlock,
     SmallBlock,
     MediumBlock,
-    GoalBlock
+    GoalBlock,
+    MonthChart,
+    PieChart
   }
 }
 </script>
