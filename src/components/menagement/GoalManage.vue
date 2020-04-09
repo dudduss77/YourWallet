@@ -2,6 +2,10 @@
   <div class="goalManage">
     <div class="goalManage__header">{{title}}</div>
     <div class="goalManage__content">Uzbierano {{money}} PLN</div>
+
+    <div @click="inMoney" class="goalManage__icon">
+      <font-awesome-icon icon="money-bill-alt" />
+    </div>
     <div @click="editGoal" class="goalManage__icon">
       <font-awesome-icon icon="edit" />
     </div>
@@ -24,6 +28,9 @@ export default {
     },
     delGoal() {
       this.$emit('delGoal');
+    },
+    inMoney() {
+      this.$emit('inMoney');
     }
   }
 };

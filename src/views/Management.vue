@@ -8,7 +8,7 @@
 
     <medium-block title="Edycja celi">
 
-      <goal-manage v-for="item in goalEdit.goalList" :key="item.id" :title="item.name" :money="item.nowMoney" v-on:editGoal="editGoal(item)" v-on:delGoal="deleteGoal(item)"/>
+      <goal-manage v-for="item in goalEdit.goalList" :key="item.id" :title="item.name" :money="item.nowMoney" v-on:inMoney="showInMoney(item)" v-on:editGoal="editGoal(item)" v-on:delGoal="deleteGoal(item)"/>
 
     </medium-block>
 
@@ -49,6 +49,8 @@
 
     <edit-expense :editValue="expenseEdit.expenseProp" v-if="expenseEdit.expenseEdit" v-on:expenseEdit="editExpense"/>
 
+    <in-money :editValue="inMoney.inProp" v-if="inMoney.inState" v-on:inMoney="showInMoney"/>
+
   </div>
 </template>
 
@@ -62,6 +64,7 @@ import ExpenItem from "../components/menagement/ExpenItem.vue";
 import EditCat from '../components/menagement/EditCat.vue'
 import EditGoal from '../components/menagement/EditGoal.vue'
 import EditExpense from '../components/menagement/EditExpense.vue'
+import InMoney from '../components/menagement/InMoney.vue'
 
 
 import db from '../db/db.json'
@@ -99,6 +102,11 @@ export default {
         expenseList: expense,
         expenseEdit: false,
         expenseProp: {}
+      },
+
+      inMoney: {
+        inState: false,
+        inProp: {}
       }
     }
   },
@@ -136,6 +144,12 @@ export default {
       console.log(e);
     },
 
+
+    showInMoney(e) {
+      this.inMoney.inState = !this.inMoney.inState;
+      this.inMoney.inProp = e;
+    },
+
     editGoal(e) {
       this.goalEdit.goaEdit = !this.goalEdit.goaEdit;
       this.goalEdit.goalProp = e;
@@ -155,6 +169,7 @@ export default {
       //Usuwanie wydatku
       console.log(e);
     }
+
   },
   components: {
     MediumBlock,
@@ -165,7 +180,8 @@ export default {
     ExpenItem,
     EditCat,
     EditGoal,
-    EditExpense
+    EditExpense,
+    InMoney
   }
 };
 </script>
