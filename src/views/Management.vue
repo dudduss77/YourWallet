@@ -234,8 +234,7 @@ export default {
         .collection("expenses")
         .doc(tmpD.getFullYear().toString())
         .collection((tmpD.getMonth() + 1).toString())
-        .get()
-        .then(function(querySnapshot) {
+        .onSnapshot(function(querySnapshot) {
           const tab = [];
           var time;
           var tmp;
@@ -269,8 +268,7 @@ export default {
       db.collection("users")
         .doc(thisVar.userData.userUid)
         .collection("goal")
-        .get()
-        .then(function(querySnapshot) {
+        .onSnapshot(function(querySnapshot) {
           const tab = [];
           querySnapshot.forEach(function(doc) {
             tab.push({
@@ -291,8 +289,7 @@ export default {
       db.collection("users")
         .doc(thisVar.userData.userUid)
         .collection("category")
-        .get()
-        .then(function(querySnapshot) {
+        .onSnapshot(function(querySnapshot) {
           const tab = [];
           querySnapshot.forEach(function(doc) {
             tab.push({ id: doc.id, name: doc.data().name });

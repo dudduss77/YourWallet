@@ -42,7 +42,6 @@
 <script>
 import InputBlock from "../reusable/InputBlock.vue";
 import ButtonComponent from "../reusable/ButtonComponent.vue";
-import router from "./../../router";
 
 import firebase from "firebase";
 export default {
@@ -130,7 +129,6 @@ export default {
         });
     },
     addMethod() {
-      var r = router;
       console.log();
       var thisVar = this;
       if (this.selected == "expense") {
@@ -166,7 +164,6 @@ export default {
               thisVar.goal.name = "";
               thisVar.goal.cost = null;
               thisVar.$emit("addChange");
-              r.go(0);
             });
           this.errMsg = "";
         } else {
@@ -194,7 +191,6 @@ export default {
               thisVar.goal.name = "";
               thisVar.goal.cost = null;
               thisVar.$emit("addChange");
-              r.go(0);
             });
           this.goal.name = "";
           this.goal.cost = null;
