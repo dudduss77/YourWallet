@@ -1,33 +1,43 @@
 <template>
   <div class="goalBlock">
     <div class="goalBlock__top">
-      <h3 class="goalBlock__top__title">{{goal}}</h3>
+      <h6 class="goalBlock__top__title">{{goal}}</h6>
       <div class="goalBlock__collected">
-        <h3>Uzbierano</h3>
-        <h3 class="goalBlock__collected__money">{{moneyOne}}</h3>
-        <h3>PLN</h3>
+        <h6>Uzbierano</h6>
+        <h6 class="goalBlock__collected__money">{{moneyOne}}</h6>
+        <h6>PLN</h6>
       </div>
       <div class="goalBlock__missing">
-        <h3>Brakuje</h3>
-        <h3 class="goalBlock__missing__money">{{moneyTwo}}</h3>
-        <h3>PLN</h3>
+        <h6>Brakuje</h6>
+        <h6 class="goalBlock__missing__money">{{moneyTwo}}</h6>
+        <h6>PLN</h6>
       </div>
     </div>
-    <bar-component class="goalBlock__bar"/>
+    <b-progress :value="percent" variant="info" :striped="false" class="bar"></b-progress>
   </div>
 </template>
 
 <script>
-import BarComponent from '../reusable/BarComponent.vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 export default {
   name: "GoalBlock",
+  created() {
+    this.percent =  parseFloat(this.moneyOne)/parseFloat(this.moneyTwo)*100;
+
+  },
   props: {
     goal: String,
     moneyOne: String,
-    moneyTwo: String
+    moneyTwo: String,
+  },
+  data() {
+    return {
+      percent: 70
+    }
   },
   components: {
-    BarComponent
+
   }
 }
 </script>
@@ -35,7 +45,7 @@ export default {
 <style lang="scss" scoped>
   .goalBlock {
     width: calc(100% - 30px);
-    height: 50px;
+    height: 100px;
     padding: 15px;
     color: #888;
     &__top {

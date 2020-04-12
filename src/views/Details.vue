@@ -3,15 +3,27 @@
     <medium-block class="details__history" title="Historia wydatków">
       <details-form v-on:searchData="displayItems" />
 
-      <div class="details__history__items">
+      <div class="details__history__items" v-if="searchSettings.searchType=='det'">
         <item-component data="Data" product="Produkt" category="Kategoria" price="Cena" />
         <item-component
+          
           v-for="item in expenseList"
           :key="item.id"
           :data="item.date"
           :product="item.name"
           :category="categoryList[item.category].name"
           :price="item.price"
+        />
+      </div>
+
+      <div class="details__history__items" v-if="searchSettings.searchType=='cat'">
+        <item-component  data="Kategoria" product="Kwota" />
+        <item-Cat-component
+          
+          v-for="item in CatListNormal"
+          :key="item.id"
+          :category="expenseCat[item.id].name"
+          :cost="expenseCat[item.id].cost"
         />
       </div>
     </medium-block>
@@ -38,12 +50,23 @@ import MediumBlock from "../components/reusable/MediumBlock.vue";
 import SmallBlock from "../components/reusable/SmallBlock.vue";
 import GoalBlock from "../components/goals/GoalBlock.vue";
 import ItemComponent from "../components/details/ItemComponent.vue";
+import ItemCatComponent from "../components/details/ItemCatComponent.vue";
 import DetailsForm from "../components/details/DetailsForm.vue";
 
 import firebase from "firebase";
 export default {
   name: "Details",
   created() {
+    var tmpD = new Date();
+    this.searchSettings.toDate =
+      tmpD.getFullYear() +
+      "-" +
+      (tmpD.getMonth() > 8
+        ? tmpD.getMonth() + 1
+        : "0" + (tmpD.getMonth() + 1)) +
+      "-" +
+      tmpD.getDate();
+
     var thisVar = this;
     thisVar.userData.userUid = firebase.auth().currentUser.uid;
     var db = firebase.firestore();
@@ -72,10 +95,16 @@ export default {
   },
   data() {
     return {
-      searchSettings: {},
+      searchSettings: {
+        searchType: "det",
+        fromDate: "2018-01-01",
+        toDate: ""
+      },
+      expenseCat: [],
       goalList: [], //Lista celów zamiast goal podpiąć json z bazy i będzie git
       expenseList: [], //Lista wydatków tak samo jak wyżej tylko zalezna od parametrów searchSettings
       categoryList: [], //Lista kategorii potrzebna do wyświetlenia odpowidnio kategorii w wydatkach chyba że inaczej to zaprogramujesz
+      CatListNormal: [],
       userData: {
         firstName: "", //Pobranie danych z bazy
         name: "", //Pobranie danych z bazy
@@ -92,19 +121,18 @@ export default {
   },
   methods: {
     getExpenses() {
+
       console.log("wywołuje getExpenses");
+      console.log(this.categoryList);
       console.log(this.searchSettings);
-      var tmpD = new Date();
+      //var tmpD = new Date();
       var db = firebase.firestore();
       var thisVar = this;
       db.collection("users")
         .doc(thisVar.userData.userUid)
         .collection("expenses")
-        .where(
-          "date",
-          ">=",
-          new Date(tmpD.getFullYear() + "-" + (tmpD.getMonth() + 1))
-        )
+        .where("date", ">=", new Date(this.searchSettings.fromDate))
+        .where("date", "<=", new Date(this.searchSettings.toDate))
         .onSnapshot(function(querySnapshot) {
           const tab = [];
           var time;
@@ -135,6 +163,49 @@ export default {
           thisVar.expenseList = tab;
 
           console.log(thisVar.expenseList);
+
+          if(thisVar.searchSettings.searchType == "cat") {
+                            console.log("Wyswietlam katego");
+                            console.log(thisVar.categoryList);
+            var catItem;
+            for(var i in thisVar.categoryList) {
+              catItem = thisVar.categoryList[i];
+              console.log("foreach działą");
+              console.log(catItem);
+              var tabTmp = thisVar.expenseList.filter(function(item) {
+                return (item.category == catItem.id);
+              });
+
+              thisVar.expenseCat[catItem.id] = {cost: "0", name: ""};
+              console.log("wyswietlam tabTmp");
+              console.log(tabTmp);
+              thisVar.expenseCat[catItem.id].name = catItem.name;
+              tabTmp.forEach(function(e) {
+                  thisVar.expenseCat[catItem.id].cost = (parseFloat(thisVar.expenseCat[catItem.id].cost) + parseFloat(e.price)).toString();
+            }); 
+            
+            thisVar.searchSettings.searchType = "";
+            thisVar.searchSettings.searchType = "cat";
+            }
+            (thisVar.categoryList).forEach(function(catItem) {
+              // console.log("foreach działą");
+              // var tabTmp = thisVar.expenseList.filter(function(item) {
+              //   return (item.category == this.catItem.id);
+              // });
+
+              // thisVar.expenseCat[catItem.id] = 0;
+              // console.log("wyswietlam tabTmp");
+              // console.log(tabTmp);
+              // tabTmp.forEach(function(e) {
+              //     thisVar.expenseCat[catItem.id] += e.price;
+              // });
+              console.log(catItem);
+
+            });
+
+
+          console.log(thisVar.expenseCat);
+          }
         });
     },
     getGoal() {
@@ -169,6 +240,9 @@ export default {
           const tab = [];
           querySnapshot.forEach(function(doc) {
             tab[doc.id] = { id: doc.id, name: doc.data().name };
+            thisVar.CatListNormal.push({
+              id: doc.id, name: doc.data().name 
+            })
           });
 
           thisVar.categoryList = tab;
@@ -178,6 +252,7 @@ export default {
     },
     displayItems(e) {
       this.searchSettings = e;
+      this.getExpenses();
       //W searchSettings masz searchType: det lub cat uzależnia wyświetlanie czy szczegóły czy kategorie, fromDate, oraz toDate od daty do daty
     }
   },
@@ -186,7 +261,9 @@ export default {
     SmallBlock,
     GoalBlock,
     ItemComponent,
-    DetailsForm
+    DetailsForm,
+    ItemCatComponent,
+    
   }
 };
 </script>

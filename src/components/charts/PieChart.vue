@@ -2,10 +2,7 @@
 import { Pie } from 'vue-chartjs'
 export default {
   props: {
-    chartData: {
-      type: Object,
-      default: null
-    }
+    chartData: Object
   },
   data() {
     return {

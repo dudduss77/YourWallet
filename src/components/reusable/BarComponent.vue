@@ -1,6 +1,6 @@
 <template>
   <div class="barComponent">
-    <h4 class="barComponent__content">{{content}}</h4>
+    <b-progress :value="50" variant="info" :striped="false" class="bar"></b-progress>
   </div>
 </template>
 
