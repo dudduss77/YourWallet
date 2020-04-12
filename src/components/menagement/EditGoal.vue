@@ -3,38 +3,62 @@
     <div class="editGoal__form">
       <div class="editGoal__form__header">Edytuj</div>
       <h3 class="editGoal__form__errMsg">{{errMsg}}</h3>
-      <input-block v-model="goalName" style="padding: 0" labelName="Nazwa celu" inputType="text"/>
-      <input-block v-model="goalMoney" labelName="Ile do uzbierania" inputType="text"/>
+      <input-block v-model="goalName" style="padding: 0" labelName="Nazwa celu" inputType="text" />
+      <input-block v-model="goalMoney" labelName="Ile do uzbierania" inputType="text" />
       <button-component :buttonFunc="this.editGoal" class="editGoal__form__button" title="Zapisz" />
-      <button-component :buttonFunc="this.cancelClick" style="margin-top: 0" class="editGoal__form__button" title="Anuluj" />
+      <button-component
+        :buttonFunc="this.cancelClick"
+        style="margin-top: 0"
+        class="editGoal__form__button"
+        title="Anuluj"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import ButtonComponent from '../reusable/ButtonComponent.vue'
-import InputBlock from '../reusable/InputBlock.vue'
+import ButtonComponent from "../reusable/ButtonComponent.vue";
+import InputBlock from "../reusable/InputBlock.vue";
+import firebase from "firebase";
+
 export default {
   name: "EditGoal",
   props: {
-    editValue: Object
+    editValue: Object,
+    uid: String
   },
   data() {
     return {
       goalName: this.editValue.name,
       goalMoney: this.editValue.allMoney,
-      errMsg: ''
-    }
+      id: this.editValue.id,
+      nowMoney: this.editValue.nowMoney,
+      userId: this.uid,
+      errMsg: ""
+    };
   },
   methods: {
     cancelClick() {
-      this.$emit('editGoal');
+      this.$emit("editGoal");
     },
     editGoal() {
-      if((this.goalName) && (this.goalMoney) && (!isNaN(this.goalMoney))) {
+      if (this.goalName && this.goalMoney && !isNaN(this.goalMoney)) {
         //Api edycja celu
-        this.errMsg = '';
-        this.$emit('editGoal');
+        var thisVar = this;
+        console.log("Edytuje cel sobie" + thisVar.userId);
+
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(thisVar.userId)
+          .collection("goal")
+          .doc(thisVar.id)
+          .update({ name: thisVar.goalName, allMoney: thisVar.goalMoney })
+          .then(function() {
+            console.log("Zedytowano " + thisVar.id);
+            thisVar.errMsg = "";
+            thisVar.$emit("editGoal");
+          });
       } else {
         this.errMsg = "Wszystkie pola wymagane";
       }

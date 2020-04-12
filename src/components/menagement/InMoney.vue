@@ -3,27 +3,35 @@
     <div class="inMoney__form">
       <div class="inMoney__form__header">Wpłać pieniądze</div>
       <h3 class="inMoney__form__errMsg">{{errMsg}}</h3>
-      <input-block v-model="inputData" style="padding: 0" labelName="Nazwa Wydatku" inputType="text"/>
+      <input-block v-model="inputData" style="padding: 0" labelName="Kwota" inputType="text" />
       <button-component :buttonFunc="depositMoney" class="inMoney__form__button" title="Wpłać" />
-      <button-component :buttonFunc="this.cancelClick" style="margin-top: 0" class="inMoney__form__button" title="Anuluj" />
+      <button-component
+        :buttonFunc="this.cancelClick"
+        style="margin-top: 0"
+        class="inMoney__form__button"
+        title="Anuluj"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import InputBlock from '../reusable/InputBlock.vue'
-import ButtonComponent from '../reusable/ButtonComponent.vue'
-
+import InputBlock from "../reusable/InputBlock.vue";
+import ButtonComponent from "../reusable/ButtonComponent.vue";
+import firebase from "firebase";
 export default {
-  name: 'InMoney',
+  name: "InMoney",
   props: {
-    editValue: Object
+    editValue: Object,
+    uid: String
   },
   data() {
     return {
-      inputData: '',
-      errMsg: ''
-    }
+      inputData: "",
+      errMsg: "",
+      userId: this.uid,
+      id: this.editValue.id
+    };
   },
   components: {
     InputBlock,
@@ -31,24 +39,41 @@ export default {
   },
   methods: {
     cancelClick() {
-      this.$emit('inMoney');
+      this.$emit("inMoney");
     },
-    depositMoney(){
-      if((this.inputData) && (!isNaN(this.inputData))) {
-        console.log(this.editValue);
-        this.errMsg = '';
-        this.$emit('inMoney');
+    depositMoney() {
+      console.log("depozytuje money");
+      var thisVar = this;
+      if (this.inputData && !isNaN(this.inputData)) {
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(thisVar.userId)
+          .collection("goal")
+          .doc(thisVar.id)
+          .update({
+            nowMoney: (
+              parseFloat(thisVar.inputData) +
+              parseFloat(thisVar.editValue.nowMoney)
+            ).toString()
+          })
+          .then(function() {
+            console.log("udało sie");
+            console.log("Emituje");
+            thisVar.errMsg = "";
+            thisVar.$emit("inMoney");
+          });
       } else {
         this.errMsg = "Podaj liczbę";
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-  .inMoney {
-    position: absolute;
+.inMoney {
+  position: absolute;
   top: 0;
   left: 0;
   background: rgba(100, 100, 100, 0.5);
@@ -83,5 +108,5 @@ export default {
       margin: 20px 0;
     }
   }
-  }
+}
 </style>

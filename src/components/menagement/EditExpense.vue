@@ -3,56 +3,87 @@
     <div class="editExpense__form">
       <div class="editExpense__form__header">Edytuj</div>
       <h3 class="editExpense__form__errMsg">{{errMsg}}</h3>
-      <input-block v-model="name" style="padding: 0" labelName="Nazwa Wydatku" inputType="text"/>
-      <input-block v-model="date" labelName="Data" inputType="date"/>
+      <input-block v-model="name" style="padding: 0" labelName="Nazwa Wydatku" inputType="text" />
+      <input-block v-model="date" labelName="Data" inputType="date" />
 
       <label style="margin-top: 20px" class="editExpense__form__label">Kategoria</label>
       <select v-model="category" class="editExpense__form__select">
-
         <option v-for="item in categoryList" :key="item.id" :value="item.id">{{item.name}}</option>
-          
       </select>
 
-      <input-block v-model="price" labelName="Cena" inputType="text"/>
-      <button-component :buttonFunc="this.editExpense" class="editExpense__form__button" title="Zapisz" />
-      <button-component :buttonFunc="this.cancelClick" style="margin-top: 0" class="editExpense__form__button" title="Anuluj" />
+      <input-block v-model="price" labelName="Cena" inputType="text" />
+      <button-component
+        :buttonFunc="this.editExpense"
+        class="editExpense__form__button"
+        title="Zapisz"
+      />
+      <button-component
+        :buttonFunc="this.cancelClick"
+        style="margin-top: 0"
+        class="editExpense__form__button"
+        title="Anuluj"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import InputBlock from '../reusable/InputBlock.vue'
-import ButtonComponent from '../reusable/ButtonComponent.vue'
+import InputBlock from "../reusable/InputBlock.vue";
+import ButtonComponent from "../reusable/ButtonComponent.vue";
+import firebase from "firebase";
 
-import db from '../../db/db.json'
 export default {
   name: "EditExpense",
   props: {
-    editValue: Object
+    editValue: Object,
+    uid: String,
+    editCategory: Array
   },
   data() {
     return {
       name: this.editValue.name,
+      docId: this.editValue.id,
       date: this.editValue.date,
       category: this.editValue.category,
       price: this.editValue.price,
-      categoryList: db,
-      errMsg: ''
-    }
+      categoryList: this.editCategory,
+      userId: this.uid,
+      errMsg: ""
+    };
   },
   methods: {
     cancelClick() {
-      this.$emit('expenseEdit');
+      this.$emit("expenseEdit");
     },
     editExpense() {
-      if((this.name) && (this.date) && (this.category || !this.category) && (this.price) && (!isNaN(this.price))) {
+      var thisVar = this;
+      if (this.name && this.date && this.price && !isNaN(this.price)) {
+        console.log("Data: " + this.date);
         //api edycja wydatku
+        var tmp = new Date(thisVar.date);
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(thisVar.userId)
+          .collection("expenses")
+          .doc(tmp.getFullYear().toString())
+          .collection((tmp.getMonth() + 1).toString())
+          .doc(thisVar.docId)
+          .update({
+            name: thisVar.name,
+            category: thisVar.category,
+            date: tmp,
+            price: thisVar.price
+          })
+          .then(function() {
+            console.log("Udało się");
+          });
         this.errMsg = "";
-        this.$emit('expenseEdit');
+        this.$emit("expenseEdit");
       } else {
         this.errMsg = "Wypełni wszystkie pola";
       }
-    } 
+    }
   },
   components: {
     InputBlock,
@@ -111,7 +142,7 @@ export default {
       border: 1px solid #888;
       margin-top: 10px;
       text-align: center;
-      font-family: 'Roboto', sans-serif;
+      font-family: "Roboto", sans-serif;
     }
   }
 }

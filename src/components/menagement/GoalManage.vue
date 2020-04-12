@@ -1,7 +1,7 @@
 <template>
   <div class="goalManage">
     <div class="goalManage__header">{{title}}</div>
-    <div class="goalManage__content">Uzbierano {{money}} PLN</div>
+    <div class="goalManage__content">Uzbierano {{money}} PLN z {{allMoney}}</div>
 
     <div @click="inMoney" class="goalManage__icon">
       <font-awesome-icon icon="money-bill-alt" />
@@ -20,17 +20,18 @@ export default {
   name: "GoalManage",
   props: {
     title: String,
-    money: String
+    money: String,
+    allMoney: String
   },
   methods: {
     editGoal() {
-      this.$emit('editGoal');
+      this.$emit("editGoal");
     },
     delGoal() {
-      this.$emit('delGoal');
+      this.$emit("delGoal");
     },
     inMoney() {
-      this.$emit('inMoney');
+      this.$emit("inMoney");
     }
   }
 };

@@ -3,9 +3,23 @@
     <div class="editCat__form">
       <div class="editCat__form__header">{{name}}</div>
       <h3 class="editCat__form__errMsg">{{errMsg}}</h3>
-      <input-block v-model="catName" class="editCat__form__input" labelName="Nazwa Kategorii" inputType="text" />
-      <button-component :buttonFunc="this.editCategory" class="editCat__form__button" title="Zapisz" />
-      <button-component style="margin-top: 0" :buttonFunc="this.cancelClick" class="editCat__form__button" title="Anuluj" />
+      <input-block
+        v-model="catName"
+        class="editCat__form__input"
+        labelName="Nazwa Kategorii"
+        inputType="text"
+      />
+      <button-component
+        :buttonFunc="this.editCategory"
+        class="editCat__form__button"
+        title="Zapisz"
+      />
+      <button-component
+        style="margin-top: 0"
+        :buttonFunc="this.cancelClick"
+        class="editCat__form__button"
+        title="Anuluj"
+      />
     </div>
   </div>
 </template>
@@ -13,43 +27,74 @@
 <script>
 import InputBlock from "../reusable/InputBlock.vue";
 import ButtonComponent from "../reusable/ButtonComponent.vue";
-import db from '../../db/db.json'
+import firebase from "firebase";
 
 export default {
   name: "EditCat",
   props: {
     name: String,
-    editValue: Object
+    editValue: Object,
+    uid: String,
+    add: Boolean
   },
   data() {
     return {
       catName: this.editValue.name,
-      errMsg: ''
-    }
+      catId: this.editValue.id,
+      errMsg: ""
+    };
   },
   methods: {
     cancelClick() {
-      this.$emit('catEdit');
+      this.$emit("catEdit");
     },
     editCategory() {
-      var flag = false;
-      if(this.catName) {
-        //Tutaj api tego foreach można wyjebać to był test czy zmienia w statycznym json
-        db.forEach(element => {
-          if(element.id == this.editValue.id) {
-            element.name = this.catName;
-          } else {
-            flag = true;
-          }
-        });
-        if(flag == true) {
-          //Tutaj dodawanie nowej kategorii nwm czy to zadziała tak jak ma działać to zależy jak będzie sprawdzane w firebase to wyżej
-          db.push({id: 4, name: this.catName});
+      var thisVar = this;
+
+      var db = firebase.firestore();
+      if (!this.add) {
+        if (this.catName) {
+          db.collection("users")
+            .doc(thisVar.uid)
+            .collection("category")
+            .doc(thisVar.catId)
+            .update({ name: thisVar.catName })
+            .then(function() {
+              console.log("Udało się");
+              thisVar.$emit("catUpdate");
+              thisVar.$emit("catEdit");
+              thisVar.errMsg = "";
+            })
+            .catch(function() {
+              console.log("Nie udało się");
+              thisVar.errMsg = "Błąd";
+            });
+
+          this.errMsg = "";
+        } else {
+          this.errMsg = "Uzupełni kategorie";
         }
-        this.errMsg = "";
-        this.$emit('catEdit');
       } else {
-        this.errMsg = "Uzupełni kategorie";
+        if (this.catName) {
+          db.collection("users")
+            .doc(thisVar.uid)
+            .collection("category")
+            .add({ name: thisVar.catName })
+            .then(function() {
+              console.log("Udało się");
+              thisVar.$emit("catUpdate");
+              thisVar.$emit("catEdit");
+              thisVar.errMsg = "";
+            })
+            .catch(function() {
+              console.log("Nie udało się");
+              thisVar.errMsg = "Błąd";
+            });
+
+          this.errMsg = "";
+        } else {
+          this.errMsg = "Uzupełni kategorie";
+        }
       }
     }
   },

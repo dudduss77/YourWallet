@@ -1,22 +1,34 @@
 <template>
   <div class="details">
     <medium-block class="details__history" title="Historia wydatków">
-
-      <details-form v-on:searchData="displayItems"/>
+      <details-form v-on:searchData="displayItems" />
 
       <div class="details__history__items">
         <item-component data="Data" product="Produkt" category="Kategoria" price="Cena" />
-        <item-component v-for="item in expenseList" :key="item.id"  :data="item.date" :product="item.name" :category="categoryList[item.category].name" :price="item.price" />
+        <item-component
+          v-for="item in expenseList"
+          :key="item.id"
+          :data="item.date"
+          :product="item.name"
+          :category="categoryList[item.category].name"
+          :price="item.price"
+        />
       </div>
     </medium-block>
 
     <div class="details__wrapper">
-      <small-block title="W sumie zaoszczędzono" :moneyCount="moneyOne + 'PLN'" />
-      <small-block title="W sumie wydano" :moneyCount="moneyTwo + 'PLN'" />
+      <small-block title="W sumie zaoszczędzono" :moneyCount="userData.allSavings + ' PLN'" />
+      <small-block title="W sumie wydano" :moneyCount="userData.allExpenses + ' PLN'" />
     </div>
 
     <medium-block class="details__goal" title="Historia celi">
-      <goal-block v-for="item in goalList" :key="item.id" :goal="item.name" :moneyOne="item.nowMoney" :moneyTwo="(item.allMoney - item.nowMoney).toString()"/>
+      <goal-block
+        v-for="item in goalList"
+        :key="item.id"
+        :goal="item.name"
+        :moneyOne="item.nowMoney"
+        :moneyTwo="(item.allMoney - item.nowMoney).toString()"
+      />
     </medium-block>
   </div>
 </template>
@@ -27,24 +39,63 @@ import SmallBlock from "../components/reusable/SmallBlock.vue";
 import GoalBlock from "../components/goals/GoalBlock.vue";
 import ItemComponent from "../components/details/ItemComponent.vue";
 import DetailsForm from "../components/details/DetailsForm.vue";
-import goal from '../db/goal.json'
-import expense from '../db/expense.json'
-import db from '../db/db.json'
+import goal from "../db/goal.json";
+import expense from "../db/expense.json";
+import db from "../db/db.json";
 
+import firebase from "firebase";
 export default {
   name: "Details",
+  created() {
+    var thisVar = this;
+    thisVar.userData.userUid = firebase.auth().currentUser.uid;
+    var db = firebase.firestore();
+
+    // pobieranie kategorii
+    // this.getCategory();
+
+    // //pobieranie celi
+    // this.getGoal();
+
+    // //pobieranie wydatków
+    // this.getExpenses();
+    //pobieranie danych usera
+    db.collection("users")
+      .doc(thisVar.userData.userUid)
+      .get()
+      .then(function(doc) {
+        thisVar.userData.firstName = doc.data().name;
+        thisVar.userData.name = doc.data().surname;
+        thisVar.userData.budget = doc.data().budget;
+        thisVar.userData.savings = doc.data().savings;
+        thisVar.userData.saveAll = doc.data().saveAll;
+        thisVar.userData.allSavings = doc.data().allSaving;
+        thisVar.userData.allExpenses = doc.data().allExpenses;
+        console.log(" dcsc" + thisVar.userData.allExpenses);
+      });
+  },
   data() {
     return {
-      moneyOne: "3000", //Wyświetla ile w sumie zaoszczędzono wystarczy pobrać z bazy i powinno działać 
-      moneyTwo: "35000", //Wyświetla ile w sumie wydano wystarczy pobrać z bazy i powinno działać
       searchSettings: {},
       goalList: goal, //Lista celów zamiast goal podpiąć json z bazy i będzie git
       expenseList: expense, //Lista wydatków tak samo jak wyżej tylko zalezna od parametrów searchSettings
-      categoryList: db //Lista kategorii potrzebna do wyświetlenia odpowidnio kategorii w wydatkach chyba że inaczej to zaprogramujesz
-    }
+      categoryList: db, //Lista kategorii potrzebna do wyświetlenia odpowidnio kategorii w wydatkach chyba że inaczej to zaprogramujesz
+      userData: {
+        firstName: "", //Pobranie danych z bazy
+        name: "", //Pobranie danych z bazy
+        edit: false,
+        email: "",
+        userUid: "",
+        budget: "",
+        savings: "",
+        saveAll: true,
+        allSavings: "",
+        allExpenses: ""
+      }
+    };
   },
   methods: {
-    displayItems(e){
+    displayItems(e) {
       this.searchSettings = e;
       //W searchSettings masz searchType: det lub cat uzależnia wyświetlanie czy szczegóły czy kategorie, fromDate, oraz toDate od daty do daty
     }
