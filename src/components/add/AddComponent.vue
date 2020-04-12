@@ -78,28 +78,6 @@ export default {
     this.getCategory();
   },
   methods: {
-    // getGoal() {
-    //   console.log("wywołuje getGoal");
-    //   var db = firebase.firestore();
-    //   var thisVar = this;
-    //   db.collection("users")
-    //     .doc(thisVar.userData.userUid)
-    //     .collection("goal")
-    //     .get()
-    //     .then(function(querySnapshot) {
-    //       const tab = [];
-    //       querySnapshot.forEach(function(doc) {
-    //         tab.push({
-    //           id: doc.id,
-    //           name: doc.data().name,
-    //           nowMoney: doc.data().nowMoney,
-    //           allMoney: doc.data().allMoney
-    //         });
-    //       });
-
-    //       thisVar.goalEdit.goalList = tab;
-    //     });
-    // },
     getCategory() {
       console.log("wywołuje getCategory");
       var tmpD = new Date();
@@ -148,8 +126,6 @@ export default {
             .collection("users")
             .doc(thisVar.userData.userUid)
             .collection("expenses")
-            .doc(tmpDate.getFullYear().toString())
-            .collection((tmpDate.getMonth() + 1).toString())
             .add({
               name: thisVar.expense.name,
               date: tmpDate,

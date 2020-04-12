@@ -232,8 +232,11 @@ export default {
       db.collection("users")
         .doc(thisVar.userData.userUid)
         .collection("expenses")
-        .doc(tmpD.getFullYear().toString())
-        .collection((tmpD.getMonth() + 1).toString())
+        .where(
+          "date",
+          ">=",
+          new Date(tmpD.getFullYear() + "-" + (tmpD.getMonth() + 1))
+        )
         .onSnapshot(function(querySnapshot) {
           const tab = [];
           var time;
@@ -433,15 +436,12 @@ export default {
 
     deleteExpense(e) {
       //Usuwanie wydatku
-      var tmpD = new Date(e.date);
       var thisVar = this;
       firebase
         .firestore()
         .collection("users")
         .doc(this.userData.userUid)
         .collection("expenses")
-        .doc(tmpD.getFullYear().toString())
-        .collection((tmpD.getMonth() + 1).toString())
         .doc(e.id)
         .delete()
         .then(function() {

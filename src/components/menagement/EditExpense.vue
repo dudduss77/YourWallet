@@ -66,8 +66,6 @@ export default {
           .collection("users")
           .doc(thisVar.userId)
           .collection("expenses")
-          .doc(tmp.getFullYear().toString())
-          .collection((tmp.getMonth() + 1).toString())
           .doc(thisVar.docId)
           .update({
             name: thisVar.name,

@@ -39,9 +39,6 @@ import SmallBlock from "../components/reusable/SmallBlock.vue";
 import GoalBlock from "../components/goals/GoalBlock.vue";
 import ItemComponent from "../components/details/ItemComponent.vue";
 import DetailsForm from "../components/details/DetailsForm.vue";
-import goal from "../db/goal.json";
-import expense from "../db/expense.json";
-import db from "../db/db.json";
 
 import firebase from "firebase";
 export default {
@@ -51,19 +48,18 @@ export default {
     thisVar.userData.userUid = firebase.auth().currentUser.uid;
     var db = firebase.firestore();
 
-    // pobieranie kategorii
-    // this.getCategory();
+    //pobieranie kategorii
+    this.getCategory();
 
-    // //pobieranie celi
-    // this.getGoal();
+    //pobieranie celi
+    this.getGoal();
 
-    // //pobieranie wydatków
-    // this.getExpenses();
+    //pobieranie wydatków
+    this.getExpenses();
     //pobieranie danych usera
     db.collection("users")
       .doc(thisVar.userData.userUid)
-      .get()
-      .then(function(doc) {
+      .onSnapshot(function(doc) {
         thisVar.userData.firstName = doc.data().name;
         thisVar.userData.name = doc.data().surname;
         thisVar.userData.budget = doc.data().budget;
@@ -77,9 +73,9 @@ export default {
   data() {
     return {
       searchSettings: {},
-      goalList: goal, //Lista celów zamiast goal podpiąć json z bazy i będzie git
-      expenseList: expense, //Lista wydatków tak samo jak wyżej tylko zalezna od parametrów searchSettings
-      categoryList: db, //Lista kategorii potrzebna do wyświetlenia odpowidnio kategorii w wydatkach chyba że inaczej to zaprogramujesz
+      goalList: [], //Lista celów zamiast goal podpiąć json z bazy i będzie git
+      expenseList: [], //Lista wydatków tak samo jak wyżej tylko zalezna od parametrów searchSettings
+      categoryList: [], //Lista kategorii potrzebna do wyświetlenia odpowidnio kategorii w wydatkach chyba że inaczej to zaprogramujesz
       userData: {
         firstName: "", //Pobranie danych z bazy
         name: "", //Pobranie danych z bazy
@@ -95,6 +91,91 @@ export default {
     };
   },
   methods: {
+    getExpenses() {
+      console.log("wywołuje getExpenses");
+      console.log(this.searchSettings);
+      var tmpD = new Date();
+      var db = firebase.firestore();
+      var thisVar = this;
+      db.collection("users")
+        .doc(thisVar.userData.userUid)
+        .collection("expenses")
+        .where(
+          "date",
+          ">=",
+          new Date(tmpD.getFullYear() + "-" + (tmpD.getMonth() + 1))
+        )
+        .onSnapshot(function(querySnapshot) {
+          const tab = [];
+          var time;
+          var tmp;
+          querySnapshot.forEach(function(doc) {
+            console.log(doc.data().data);
+            time = new Date(doc.data().date.seconds * 1000);
+            console.log("Data 1: " + time);
+            console.log(doc.data().name);
+            tmp =
+              time.getFullYear() +
+              "-" +
+              (time.getMonth() < 9
+                ? "0" + (time.getMonth() + 1)
+                : time.getMonth() + 1) +
+              "-" +
+              (time.getDate() < 10 ? "0" + time.getDate() : time.getDate());
+
+            tab.push({
+              id: doc.id,
+              name: doc.data().name,
+              category: doc.data().category,
+              date: tmp,
+              price: doc.data().price
+            });
+          });
+          console.log(tab);
+          thisVar.expenseList = tab;
+
+          console.log(thisVar.expenseList);
+        });
+    },
+    getGoal() {
+      console.log("wywołuje getGoal");
+      var db = firebase.firestore();
+      var thisVar = this;
+      db.collection("users")
+        .doc(thisVar.userData.userUid)
+        .collection("goal")
+        .onSnapshot(function(querySnapshot) {
+          const tab = [];
+          querySnapshot.forEach(function(doc) {
+            tab.push({
+              id: doc.id,
+              name: doc.data().name,
+              nowMoney: doc.data().nowMoney,
+              allMoney: doc.data().allMoney
+            });
+          });
+
+          thisVar.goalList = tab;
+        });
+    },
+    getCategory() {
+      console.log("wywołuje getCategory");
+      var db = firebase.firestore();
+      var thisVar = this;
+      db.collection("users")
+        .doc(thisVar.userData.userUid)
+        .collection("category")
+        .onSnapshot(function(querySnapshot) {
+          const tab = [];
+          querySnapshot.forEach(function(doc) {
+            tab[doc.id] = { id: doc.id, name: doc.data().name };
+          });
+
+          thisVar.categoryList = tab;
+          console.log("Wyswietlam cele");
+          console.log(thisVar.categoryList);
+        });
+    },
     displayItems(e) {
       this.searchSettings = e;
       //W searchSettings masz searchType: det lub cat uzależnia wyświetlanie czy szczegóły czy kategorie, fromDate, oraz toDate od daty do daty
