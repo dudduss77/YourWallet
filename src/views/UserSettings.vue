@@ -153,6 +153,7 @@ export default {
   created() {
     var thisVar = this;
     thisVar.userData.userUid = firebase.auth().currentUser.uid;
+    thisVar.userData.email = firebase.auth().currentUser.email;
 
     var db = firebase.firestore();
     db.collection("users")
@@ -188,6 +189,11 @@ export default {
       }
     },
     changePass() {
+      console.log(this.modPass.oldPass);
+      console.log(this.modPass.newPass);
+      console.log(this.modPass.repPass);
+      console.log(this.modPass.repPass == this.modPass.newPass);
+      console.log(this.userData.email);
       if (
         this.modPass.oldPass &&
         this.modPass.newPass &&

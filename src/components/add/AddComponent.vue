@@ -68,13 +68,29 @@ export default {
         userUid: "",
         budget: "",
         savings: "",
-        saveAll: true
+        saveAll: true,
+        allExpenses: ""
       },
       cat: []
     };
   },
   created() {
-    this.userData.userUid = firebase.auth().currentUser.uid;
+    var thisVar = this;
+    thisVar.userData.userUid = firebase.auth().currentUser.uid;
+    var db = firebase.firestore();
+
+        db.collection("users")
+      .doc(thisVar.userData.userUid)
+      .onSnapshot(function(doc) {
+        thisVar.userData.firstName = doc.data().name;
+        thisVar.userData.name = doc.data().surname;
+        thisVar.userData.budget = parseFloat(doc.data().budget);
+        thisVar.userData.savings = doc.data().savings;
+        thisVar.userData.saveAll = doc.data().saveAll;
+        thisVar.userData.allSavings = doc.data().allSaving;
+        thisVar.userData.allExpenses = doc.data().allExpenses;
+
+      });
     this.getCategory();
   },
   methods: {
@@ -133,6 +149,10 @@ export default {
               price: thisVar.expense.price
             })
             .then(function() {
+              firebase.firestore()
+            .collection("users")
+            .doc(thisVar.userData.userUid)
+            .update({allExpenses: (parseFloat(thisVar.userData.allExpenses) + parseFloat(thisVar.expense.price)).toString()});
               console.log("Dodano wydatek");
               thisVar.expense.name = "";
               thisVar.expense.category = "eat";

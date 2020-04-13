@@ -74,10 +74,27 @@ export default {
             user.user.updateProfile({
               displayName: this.newUser.name
             });
-            firebase.firestore().collection('users').doc(user.user.uid).set({
-              //Strukture bazy można tu dodać
-            }).then().catch();
-            this.$router.replace('dashboard');
+            firebase
+              .firestore()
+              .collection("users")
+              .doc(user.user.uid)
+              .set({
+                //Strukture bazy można tu dodać
+                actualMonth: new Date().getMonth() + 1,
+                actualSave: "0",
+                allExpenses: "0",
+                allSaving: "0",
+                budget: "0",
+                name: "Brak",
+                surname: "Brak",
+                saveAll: true,
+                savings: "0",
+                LastMonthSavings: "0"
+              })
+              .then()
+              .catch();
+
+            this.$router.go("dashboard");
           })
           .catch(function(error) {
             var errorCode = error.code;
