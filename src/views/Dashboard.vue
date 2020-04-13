@@ -12,7 +12,7 @@
         <month-chart style="height: 200px" :chartData="chartDat"/>
       </medium-block>
       <medium-block title="Rozkład wydatków">
-        <pie-chart style="height: 200px" :chartData="pieCharData"/>
+        <pie-chart  v-if="pieCharData.visible" style="height: 200px" :chartData="pieCharData"/>
       </medium-block>
       <medium-block title="Cele">
         <goal-block v-for="item in goalList" :key="item.id" :goal="item.name" :moneyOne="item.nowMoney" :moneyTwo="(item.allMoney - item.nowMoney).toString()"/>
@@ -53,7 +53,7 @@ export default {
         thisVar.userData.saveAll = doc.data().saveAll;
         thisVar.userData.allSavings = doc.data().allSaving;
         thisVar.userData.allExpenses = doc.data().allExpenses;
-        console.log(" dcsc" + thisVar.userData.allExpenses);
+
       });
 
  //pobieranie kategorii
@@ -64,6 +64,7 @@ export default {
 
     //pobieranie wydatków
     this.getExpenses();
+
   },
   data() {
     return {
@@ -72,8 +73,9 @@ export default {
       savMoney: "20.34", // Wyświetla zaoszczędzone pieniądze w danym miesiącu
       chartDat: [],
       pieCharData: {
-        name: ['Jedz', 'Hobby', 'Stałe'],
-        count: [0, 30 ,40],
+        name: ['Jedz', 'Hobby', 'Stałe', 'krowy'],
+        count: [10, 30 ,40, 50],
+        visible: false
       },
       userData: {
         firstName: "", //Pobranie danych z bazy
@@ -115,7 +117,7 @@ export default {
           var time;
           var tmp;
           querySnapshot.forEach(function(doc) {
-            console.log(doc.data().data);
+
             time = new Date(doc.data().date.seconds * 1000);
             tmp =
               time.getFullYear() +
@@ -155,22 +157,19 @@ export default {
             
 
             }
-        console.log("Wyswietlam obiekt kategorii");
-        console.log(thisVar.pieCharData.name);
-        console.log(thisVar.pieCharData.count);
+
           thisVar.pieCharData.name = [];
           thisVar.pieCharData.count = [];
         for(var j in thisVar.expenseCat) {
           thisVar.pieCharData.name.push(thisVar.expenseCat[j].name);
           thisVar.pieCharData.count.push(parseFloat(thisVar.expenseCat[j].cost));
         }
-        console.log("Wyswietlam obiekt kategorii");
-        console.log(thisVar.pieCharData.name);
-        console.log(thisVar.pieCharData.count);
+
+            thisVar.pieCharData.visible = true;
         });
     },
     getGoal() {
-      console.log("wywołuje getGoal");
+
       var db = firebase.firestore();
       var thisVar = this;
       db.collection("users")
