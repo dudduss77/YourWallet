@@ -35,7 +35,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 let app = ''
 
 
-
+//zmieniam main
 
 
 
