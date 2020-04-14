@@ -56,6 +56,7 @@ export default {
       this.$emit("changeState");
     },
     register() {
+      var thisVar = this;
       if (
         this.newUser.email &&
         this.newUser.password &&
@@ -91,10 +92,11 @@ export default {
                 savings: "0",
                 LastMonthSavings: "0"
               })
-              .then()
+              .then(function() {
+                console.log("Stworzyłem baze danych");
+                thisVar.$router.go("dashboard");
+              })
               .catch();
-
-            this.$router.go("dashboard");
           })
           .catch(function(error) {
             var errorCode = error.code;
