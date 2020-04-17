@@ -60,13 +60,11 @@ export default {
             .doc(thisVar.catId)
             .update({ name: thisVar.catName })
             .then(function() {
-              console.log("Udało się");
               thisVar.$emit("catUpdate");
               thisVar.$emit("catEdit");
               thisVar.errMsg = "";
             })
             .catch(function() {
-              console.log("Nie udało się");
               thisVar.errMsg = "Błąd";
             });
 
@@ -81,13 +79,11 @@ export default {
             .collection("category")
             .add({ name: thisVar.catName })
             .then(function() {
-              console.log("Udało się");
               thisVar.$emit("catUpdate");
               thisVar.$emit("catEdit");
               thisVar.errMsg = "";
             })
             .catch(function() {
-              console.log("Nie udało się");
               thisVar.errMsg = "Błąd";
             });
 

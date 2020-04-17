@@ -58,8 +58,6 @@ export default {
         : "0" + (tmpD.getMonth() + 1)) +
       "-" +
       tmpD.getDate();
-    console.log("Wyswietlam searchSettings");
-    console.log(this.searchSettings);
   },
   data() {
     return {
@@ -73,8 +71,6 @@ export default {
   methods: {
     sendSearch() {
       this.$emit("searchData", this.searchSettings);
-      console.log("Wyswietla searchType");
-      console.log(this.searchSettings);
     }
   },
   components: {

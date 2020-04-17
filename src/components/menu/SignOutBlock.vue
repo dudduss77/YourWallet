@@ -14,12 +14,10 @@ export default {
       firebase
         .auth()
         .signOut()
-        .then( () => {
-          this.$router.replace('login');
+        .then(() => {
+          this.$router.replace("login");
         })
-        .catch(function(error) {
-          console.log(error)
-        });
+        .catch(function() {});
     }
   }
 };

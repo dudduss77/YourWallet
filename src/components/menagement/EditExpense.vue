@@ -58,7 +58,6 @@ export default {
     editExpense() {
       var thisVar = this;
       if (this.name && this.date && this.price && !isNaN(this.price)) {
-        console.log("Data: " + this.date);
         //api edycja wydatku
         var tmp = new Date(thisVar.date);
         firebase
@@ -73,9 +72,7 @@ export default {
             date: tmp,
             price: thisVar.price
           })
-          .then(function() {
-            console.log("Udało się");
-          });
+          .then(function() {});
         this.errMsg = "";
         this.$emit("expenseEdit");
       } else {

@@ -6,7 +6,6 @@
       <div class="details__history__items" v-if="searchSettings.searchType=='det'">
         <item-component data="Data" product="Produkt" category="Kategoria" price="Cena" />
         <item-component
-          
           v-for="item in expenseList"
           :key="item.id"
           :data="item.date"
@@ -17,9 +16,8 @@
       </div>
 
       <div class="details__history__items" v-if="searchSettings.searchType=='cat'">
-        <item-component  data="Kategoria" product="Kwota" />
+        <item-component data="Kategoria" product="Kwota" />
         <item-Cat-component
-          
           v-for="item in CatListNormal"
           :key="item.id"
           :category="expenseCat[item.id].name"
@@ -52,7 +50,6 @@ import GoalBlock from "../components/goals/GoalBlock.vue";
 import ItemComponent from "../components/details/ItemComponent.vue";
 import ItemCatComponent from "../components/details/ItemCatComponent.vue";
 import DetailsForm from "../components/details/DetailsForm.vue";
-
 import firebase from "firebase";
 export default {
   name: "Details",
@@ -66,17 +63,13 @@ export default {
         : "0" + (tmpD.getMonth() + 1)) +
       "-" +
       tmpD.getDate();
-
     var thisVar = this;
     thisVar.userData.userUid = firebase.auth().currentUser.uid;
     var db = firebase.firestore();
-
     //pobieranie kategorii
     this.getCategory();
-
     //pobieranie celi
     this.getGoal();
-
     //pobieranie wydatków
     this.getExpenses();
     //pobieranie danych usera
@@ -90,7 +83,6 @@ export default {
         thisVar.userData.saveAll = doc.data().saveAll;
         thisVar.userData.allSavings = doc.data().allSaving;
         thisVar.userData.allExpenses = doc.data().allExpenses;
-        console.log(" dcsc" + thisVar.userData.allExpenses);
       });
   },
   data() {
@@ -121,10 +113,6 @@ export default {
   },
   methods: {
     getExpenses() {
-
-      console.log("wywołuje getExpenses");
-      console.log(this.categoryList);
-      console.log(this.searchSettings);
       //var tmpD = new Date();
       var db = firebase.firestore();
       var thisVar = this;
@@ -138,10 +126,8 @@ export default {
           var time;
           var tmp;
           querySnapshot.forEach(function(doc) {
-            console.log(doc.data().data);
             time = new Date(doc.data().date.seconds * 1000);
-            console.log("Data 1: " + time);
-            console.log(doc.data().name);
+
             tmp =
               time.getFullYear() +
               "-" +
@@ -150,7 +136,6 @@ export default {
                 : time.getMonth() + 1) +
               "-" +
               (time.getDate() < 10 ? "0" + time.getDate() : time.getDate());
-
             tab.push({
               id: doc.id,
               name: doc.data().name,
@@ -159,57 +144,35 @@ export default {
               price: doc.data().price
             });
           });
-          console.log(tab);
+
           thisVar.expenseList = tab;
 
-          console.log(thisVar.expenseList);
-
-          if(thisVar.searchSettings.searchType == "cat") {
-                            console.log("Wyswietlam katego");
-                            console.log(thisVar.categoryList);
+          if (thisVar.searchSettings.searchType == "cat") {
             var catItem;
-            for(var i in thisVar.categoryList) {
+            for (var i in thisVar.categoryList) {
               catItem = thisVar.categoryList[i];
-              console.log("foreach działą");
-              console.log(catItem);
-              var tabTmp = thisVar.expenseList.filter(function(item) {
-                return (item.category == catItem.id);
-              });
 
-              thisVar.expenseCat[catItem.id] = {cost: "0", name: ""};
-              console.log("wyswietlam tabTmp");
-              console.log(tabTmp);
+              var tabTmp = thisVar.expenseList.filter(function(item) {
+                return item.category == catItem.id;
+              });
+              thisVar.expenseCat[catItem.id] = { cost: "0", name: "" };
+
               thisVar.expenseCat[catItem.id].name = catItem.name;
               tabTmp.forEach(function(e) {
-                  thisVar.expenseCat[catItem.id].cost = (parseFloat(thisVar.expenseCat[catItem.id].cost) + parseFloat(e.price)).toString();
-            }); 
-            
-            thisVar.searchSettings.searchType = "";
-            thisVar.searchSettings.searchType = "cat";
+                thisVar.expenseCat[catItem.id].cost = (
+                  parseFloat(thisVar.expenseCat[catItem.id].cost) +
+                  parseFloat(e.price)
+                ).toString();
+              });
+
+              thisVar.searchSettings.searchType = "";
+              thisVar.searchSettings.searchType = "cat";
             }
-            (thisVar.categoryList).forEach(function(catItem) {
-              // console.log("foreach działą");
-              // var tabTmp = thisVar.expenseList.filter(function(item) {
-              //   return (item.category == this.catItem.id);
-              // });
-
-              // thisVar.expenseCat[catItem.id] = 0;
-              // console.log("wyswietlam tabTmp");
-              // console.log(tabTmp);
-              // tabTmp.forEach(function(e) {
-              //     thisVar.expenseCat[catItem.id] += e.price;
-              // });
-              console.log(catItem);
-
-            });
-
-
-          console.log(thisVar.expenseCat);
+            thisVar.categoryList.forEach(function() {});
           }
         });
     },
     getGoal() {
-      console.log("wywołuje getGoal");
       var db = firebase.firestore();
       var thisVar = this;
       db.collection("users")
@@ -225,12 +188,10 @@ export default {
               allMoney: doc.data().allMoney
             });
           });
-
           thisVar.goalList = tab;
         });
     },
     getCategory() {
-      console.log("wywołuje getCategory");
       var db = firebase.firestore();
       var thisVar = this;
       db.collection("users")
@@ -241,13 +202,11 @@ export default {
           querySnapshot.forEach(function(doc) {
             tab[doc.id] = { id: doc.id, name: doc.data().name };
             thisVar.CatListNormal.push({
-              id: doc.id, name: doc.data().name 
-            })
+              id: doc.id,
+              name: doc.data().name
+            });
           });
-
           thisVar.categoryList = tab;
-          console.log("Wyswietlam cele");
-          console.log(thisVar.categoryList);
         });
     },
     displayItems(e) {
@@ -262,8 +221,7 @@ export default {
     GoalBlock,
     ItemComponent,
     DetailsForm,
-    ItemCatComponent,
-    
+    ItemCatComponent
   }
 };
 </script>

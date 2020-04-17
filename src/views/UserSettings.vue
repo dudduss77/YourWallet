@@ -166,34 +166,30 @@ export default {
         thisVar.userData.name = doc.data().surname;
         thisVar.modUser.newSurname = doc.data().surname;
       })
-      .catch(function(error) {
-        console.log("Error getting document:", error);
-      });
-
-    console.log(firebase.auth().currentUser);
-    console.log("uid: " + this.userData.userUid);
+      .catch(function() {});
   },
   methods: {
     delAccount() {
       var r = router;
+      let tmpUid = this.userData.userUid;
       if (this.delCheck) {
         firebase
           .auth()
           .currentUser.delete()
           .then(function() {
+            firebase
+              .firestore()
+              .collection("users")
+              .doc(tmpUid)
+              .delete();
+
             r.push("login");
           });
-        console.log(this.router);
       } else {
         this.redMod = true;
       }
     },
     changePass() {
-      console.log(this.modPass.oldPass);
-      console.log(this.modPass.newPass);
-      console.log(this.modPass.repPass);
-      console.log(this.modPass.repPass == this.modPass.newPass);
-      console.log(this.userData.email);
       if (
         this.modPass.oldPass &&
         this.modPass.newPass &&

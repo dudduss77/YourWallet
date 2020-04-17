@@ -93,7 +93,6 @@ export default {
                 LastMonthSavings: "0"
               })
               .then(function() {
-                console.log("Stworzyłem baze danych");
                 thisVar.$router.go("dashboard");
               })
               .catch();

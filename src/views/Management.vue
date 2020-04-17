@@ -74,6 +74,7 @@
 
     <medium-block class="management__category" title="Kategorie">
       <div class="management__category__wrapper">
+        <h3 style="color: red">{{errCatMsg}}</h3>
         <item-component
           v-for="item in categoryEdit.categoryList"
           :key="item.id"
@@ -174,6 +175,7 @@ export default {
         thisVar.userData.saveAll = doc.data().saveAll;
         thisVar.saveBudget.budget = thisVar.userData.budget;
         thisVar.saveMoney.moneyCount = doc.data().savings;
+        thisVar.userData.allExpenses = doc.data().allExpenses;
       });
   },
   data() {
@@ -211,6 +213,7 @@ export default {
         inState: false,
         inProp: {}
       },
+      errCatMsg: "",
       userData: {
         firstName: "", //Pobranie danych z bazy
         name: "", //Pobranie danych z bazy
@@ -219,13 +222,13 @@ export default {
         userUid: "",
         budget: "",
         savings: "",
-        saveAll: true
+        saveAll: true,
+        allExpenses: ""
       }
     };
   },
   methods: {
     getExpenses() {
-      console.log("wywołuje getGoal");
       var tmpD = new Date();
       var db = firebase.firestore();
       var thisVar = this;
@@ -243,7 +246,7 @@ export default {
           var tmp;
           querySnapshot.forEach(function(doc) {
             time = new Date(doc.data().date.seconds * 1000);
-            console.log("Data 1: " + time);
+
             tmp =
               time.getFullYear() +
               "-" +
@@ -265,7 +268,6 @@ export default {
         });
     },
     getGoal() {
-      console.log("wywołuje getGoal");
       var db = firebase.firestore();
       var thisVar = this;
       db.collection("users")
@@ -286,7 +288,6 @@ export default {
         });
     },
     getCategory() {
-      console.log("wywołuje getCategory");
       var db = firebase.firestore();
       var thisVar = this;
       db.collection("users")
@@ -351,7 +352,6 @@ export default {
           .then(function() {
             thisVar.saveMoney.errMsg = "";
             thisVar.saveMoney.goodMsg = "Zaktualizowano Dane";
-            console.log("mac miller");
           })
           .catch(function() {
             thisVar.saveMoney.errMsg = "Nie można zaktualizować danych";
@@ -362,7 +362,7 @@ export default {
 
     editCategory(e) {
       this.categoryEdit.catEdit = !this.categoryEdit.catEdit;
-      console.log(e);
+
       if (e) this.categoryEdit.catProp = e;
       else this.categoryEdit.catProp = { id: "", name: "" };
     },
@@ -372,15 +372,45 @@ export default {
     deleteCategory(e) {
       var db = firebase.firestore();
       var thisVar = this;
+      let flag = true;
+
       db.collection("users")
         .doc(thisVar.userData.userUid)
-        .collection("category")
-        .doc(e.id)
-        .delete()
-        .then(function() {
-          thisVar.getCategory();
+        .collection("expenses")
+        .get()
+        .then(function(item) {
+          item.forEach(function(m) {
+            if (m.data().category === e.id) {
+              flag = false;
+            }
+          });
+
+          if (flag) {
+            db.collection("users")
+              .doc(thisVar.userData.userUid)
+              .collection("category")
+              .doc(e.id)
+              .delete()
+              .then(function() {
+                thisVar.getCategory();
+              });
+          } else {
+            thisVar.errCatMsg = "Kategoria w użyciu!";
+            window.setTimeout(function() {
+              thisVar.errCatMsg = "";
+            }, 3000);
+          }
+        })
+        .catch(function() {
+          db.collection("users")
+            .doc(thisVar.userData.userUid)
+            .collection("category")
+            .doc(e.id)
+            .delete()
+            .then(function() {
+              thisVar.getCategory();
+            });
         });
-      console.log(e);
     },
 
     showInMoney(e) {
@@ -397,7 +427,6 @@ export default {
     },
 
     editGoal(e) {
-      console.log("editGoal sie robi");
       this.goalEdit.goaEdit = !this.goalEdit.goaEdit;
       if (e) this.goalEdit.goalProp = e;
       else
@@ -423,7 +452,6 @@ export default {
         .then(function() {
           thisVar.getGoal();
         });
-      console.log(e);
     },
 
     editExpense(e) {
@@ -437,6 +465,17 @@ export default {
     deleteExpense(e) {
       //Usuwanie wydatku
       var thisVar = this;
+      let tmp = (
+        parseFloat(thisVar.userData.allExpenses) - parseFloat(e.price)
+      ).toString();
+
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(this.userData.userUid)
+        .update({
+          allExpenses: tmp
+        });
       firebase
         .firestore()
         .collection("users")
@@ -447,7 +486,6 @@ export default {
         .then(function() {
           thisVar.getExpenses();
         });
-      console.log(e);
     }
   },
   components: {

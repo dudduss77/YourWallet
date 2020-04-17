@@ -79,7 +79,7 @@ export default {
     thisVar.userData.userUid = firebase.auth().currentUser.uid;
     var db = firebase.firestore();
 
-        db.collection("users")
+    db.collection("users")
       .doc(thisVar.userData.userUid)
       .onSnapshot(function(doc) {
         thisVar.userData.firstName = doc.data().name;
@@ -89,13 +89,11 @@ export default {
         thisVar.userData.saveAll = doc.data().saveAll;
         thisVar.userData.allSavings = doc.data().allSaving;
         thisVar.userData.allExpenses = doc.data().allExpenses;
-
       });
     this.getCategory();
   },
   methods: {
     getCategory() {
-      console.log("wywołuje getCategory");
       var tmpD = new Date();
       this.expense.date =
         tmpD.getFullYear() +
@@ -105,7 +103,7 @@ export default {
           : tmpD.getMonth() + 1) +
         "-" +
         (tmpD.getDate() < 9 ? "0" + tmpD.getDate() : tmpD.getDate());
-      console.log(this.expense.date);
+
       var db = firebase.firestore();
       var thisVar = this;
       db.collection("users")
@@ -119,11 +117,9 @@ export default {
           });
 
           thisVar.cat = tab;
-          console.log(thisVar.cat);
         });
     },
     addMethod() {
-      console.log();
       var thisVar = this;
       if (this.selected == "expense") {
         if (
@@ -135,7 +131,7 @@ export default {
         ) {
           //alert(this.expense.name + " " + this.expense.category + " " + this.expense.price);
           //Api dodawanie wydatku
-          console.log(this.expense.date);
+
           const tmpDate = new Date(this.expense.date);
           firebase
             .firestore()
@@ -149,11 +145,17 @@ export default {
               price: thisVar.expense.price
             })
             .then(function() {
-              firebase.firestore()
-            .collection("users")
-            .doc(thisVar.userData.userUid)
-            .update({allExpenses: (parseFloat(thisVar.userData.allExpenses) + parseFloat(thisVar.expense.price)).toString()});
-              console.log("Dodano wydatek");
+              firebase
+                .firestore()
+                .collection("users")
+                .doc(thisVar.userData.userUid)
+                .update({
+                  allExpenses: (
+                    parseFloat(thisVar.userData.allExpenses) +
+                    parseFloat(thisVar.expense.price)
+                  ).toString()
+                });
+
               thisVar.expense.name = "";
               thisVar.expense.category = "eat";
               thisVar.expense.price = null;
@@ -167,8 +169,6 @@ export default {
         }
       } else {
         if (this.goal.name && this.goal.cost && !isNaN(this.goal.cost)) {
-          //alert(this.goal.name + " " + this.goal.cost);
-          //Api dodawanie celu
           firebase
             .firestore()
             .collection("users")
@@ -180,7 +180,6 @@ export default {
               nowMoney: "0"
             })
             .then(function() {
-              console.log("Dodano cel");
               thisVar.expense.name = "";
               thisVar.expense.category = "eat";
               thisVar.expense.price = null;

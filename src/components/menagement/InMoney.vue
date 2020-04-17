@@ -42,7 +42,6 @@ export default {
       this.$emit("inMoney");
     },
     depositMoney() {
-      console.log("depozytuje money");
       var thisVar = this;
       if (this.inputData && !isNaN(this.inputData)) {
         firebase
@@ -58,8 +57,6 @@ export default {
             ).toString()
           })
           .then(function() {
-            console.log("udało sie");
-            console.log("Emituje");
             thisVar.errMsg = "";
             thisVar.$emit("inMoney");
           });

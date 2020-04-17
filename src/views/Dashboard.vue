@@ -205,7 +205,6 @@ export default {
 
           thisVar.chartDatVisible = true;
 
-          console.log(thisVar.userData.budget + " " + thisVar.issMoney);
           thisVar.avaMoney = (
             thisVar.userData.budget - thisVar.issMoney
           ).toString();
@@ -217,15 +216,19 @@ export default {
       db.collection("users")
         .doc(thisVar.userData.userUid)
         .collection("goal")
+
         .onSnapshot(function(querySnapshot) {
           const tab = [];
           querySnapshot.forEach(function(doc) {
-            tab.push({
-              id: doc.id,
-              name: doc.data().name,
-              nowMoney: doc.data().nowMoney,
-              allMoney: doc.data().allMoney
-            });
+            if (
+              parseFloat(doc.data().nowMoney) < parseFloat(doc.data().allMoney)
+            )
+              tab.push({
+                id: doc.id,
+                name: doc.data().name,
+                nowMoney: doc.data().nowMoney,
+                allMoney: doc.data().allMoney
+              });
           });
 
           thisVar.goalList = tab;

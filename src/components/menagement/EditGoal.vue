@@ -45,7 +45,6 @@ export default {
       if (this.goalName && this.goalMoney && !isNaN(this.goalMoney)) {
         //Api edycja celu
         var thisVar = this;
-        console.log("Edytuje cel sobie" + thisVar.userId);
 
         firebase
           .firestore()
@@ -55,7 +54,6 @@ export default {
           .doc(thisVar.id)
           .update({ name: thisVar.goalName, allMoney: thisVar.goalMoney })
           .then(function() {
-            console.log("Zedytowano " + thisVar.id);
             thisVar.errMsg = "";
             thisVar.$emit("editGoal");
           });
