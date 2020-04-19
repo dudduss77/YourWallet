@@ -1,12 +1,12 @@
-Date : 2020-04-01 23:02:12
+Date : 2020-04-08 18:49:57
 Directory : c:\Users\Damian\Desktop\2 Week Project\your-wallet\src
-Total : 36 files,  2212 codes, 28 comments, 133 blanks, all 2373 lines
+Total : 38 files,  2316 codes, 33 comments, 137 blanks, all 2486 lines
 
 Languages
 +------------+------------+------------+------------+------------+------------+
 | language   | files      | code       | comment    | blank      | total      |
 +------------+------------+------------+------------+------------+------------+
-| Vue        |         31 |      2,101 |         19 |        122 |      2,242 |
+| Vue        |         33 |      2,205 |         24 |        126 |      2,355 |
 | JavaScript |          2 |         61 |          9 |         11 |         81 |
 | JSON       |          3 |         50 |          0 |          0 |         50 |
 +------------+------------+------------+------------+------------+------------+
@@ -15,19 +15,20 @@ Directories
 +------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
 | path                                                                                           | files      | code       | comment    | blank      | total      |
 +------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
-| .                                                                                              |         36 |      2,212 |         28 |        133 |      2,373 |
-| components                                                                                     |         24 |      1,381 |          9 |         64 |      1,454 |
-| components\add                                                                                 |          1 |        142 |          4 |          9 |        155 |
+| .                                                                                              |         38 |      2,316 |         33 |        137 |      2,486 |
+| components                                                                                     |         26 |      1,481 |         13 |         66 |      1,560 |
+| components\add                                                                                 |          1 |        143 |          4 |          9 |        156 |
+| components\charts                                                                              |          2 |         93 |          0 |          2 |         95 |
 | components\details                                                                             |          2 |        130 |          0 |          5 |        135 |
 | components\goals                                                                               |          1 |         57 |          0 |          2 |         59 |
 | components\login                                                                               |          2 |        188 |          2 |          6 |        196 |
-| components\mainPage                                                                            |          2 |         76 |          0 |          4 |         80 |
-| components\menagement                                                                          |          6 |        442 |          0 |         18 |        460 |
+| components\mainPage                                                                            |          2 |         74 |          0 |          4 |         78 |
+| components\menagement                                                                          |          6 |        450 |          4 |         18 |        472 |
 | components\menu                                                                                |          4 |        126 |          0 |          8 |        134 |
 | components\reusable                                                                            |          6 |        220 |          3 |         12 |        235 |
 | db                                                                                             |          3 |         50 |          0 |          0 |         50 |
 | router                                                                                         |          1 |         48 |          9 |          5 |         62 |
-| views                                                                                          |          6 |        681 |         10 |         55 |        746 |
+| views                                                                                          |          6 |        685 |         11 |         57 |        753 |
 +------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
 
 Files
@@ -35,17 +36,19 @@ Files
 | filename                                                                                       | language   | code       | comment    | blank      | total      |
 +------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\App.vue                                 | Vue        |         39 |          0 |          3 |         42 |
-| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\add\AddComponent.vue         | Vue        |        142 |          4 |          9 |        155 |
+| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\add\AddComponent.vue         | Vue        |        143 |          4 |          9 |        156 |
+| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\charts\MonthChart.vue        | Vue        |         54 |          0 |          1 |         55 |
+| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\charts\PieChart.vue          | Vue        |         39 |          0 |          1 |         40 |
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\details\DetailsForm.vue      | Vue        |         96 |          0 |          3 |         99 |
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\details\ItemComponent.vue    | Vue        |         34 |          0 |          2 |         36 |
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\goals\GoalBlock.vue          | Vue        |         57 |          0 |          2 |         59 |
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\login\LoginBlock.vue         | Vue        |         93 |          1 |          3 |         97 |
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\login\RegisterBlock.vue      | Vue        |         95 |          1 |          3 |         99 |
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\mainPage\Logo.vue            | Vue        |         37 |          0 |          2 |         39 |
-| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\mainPage\Menu.vue            | Vue        |         39 |          0 |          2 |         41 |
-| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\menagement\EditCat.vue       | Vue        |         99 |          0 |          3 |        102 |
-| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\menagement\EditExpense.vue   | Vue        |        102 |          0 |          7 |        109 |
-| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\menagement\EditGoal.vue      | Vue        |         88 |          0 |          2 |         90 |
+| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\mainPage\Menu.vue            | Vue        |         37 |          0 |          2 |         39 |
+| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\menagement\EditCat.vue       | Vue        |         99 |          2 |          3 |        104 |
+| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\menagement\EditExpense.vue   | Vue        |        110 |          1 |          7 |        118 |
+| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\menagement\EditGoal.vue      | Vue        |         88 |          1 |          2 |         91 |
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\menagement\ExpenItem.vue     | Vue        |         56 |          0 |          2 |         58 |
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\menagement\GoalManage.vue    | Vue        |         51 |          0 |          2 |         53 |
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\components\menagement\ItemComponent.vue | Vue        |         46 |          0 |          2 |         48 |
@@ -64,11 +67,11 @@ Files
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\db\goal.json                            | JSON       |         20 |          0 |          0 |         20 |
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\main.js                                 | JavaScript |         13 |          0 |          6 |         19 |
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\router\index.js                         | JavaScript |         48 |          9 |          5 |         62 |
-| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\views\Dashboard.vue                     | Vue        |         64 |          0 |          3 |         67 |
-| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\views\Details.vue                       | Vue        |         98 |          1 |          7 |        106 |
+| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\views\Dashboard.vue                     | Vue        |         74 |          0 |          5 |         79 |
+| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\views\Details.vue                       | Vue        |         95 |          1 |          7 |        103 |
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\views\LoginPage.vue                     | Vue        |        112 |          0 |          5 |        117 |
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\views\MainPage.vue                      | Vue        |         52 |          0 |          3 |         55 |
-| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\views\Management.vue                    | Vue        |        198 |          5 |         28 |        231 |
+| c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\views\Management.vue                    | Vue        |        195 |          6 |         28 |        229 |
 | c:\Users\Damian\Desktop\2 Week Project\your-wallet\src\views\UserSettings.vue                  | Vue        |        157 |          4 |          9 |        170 |
-| Total                                                                                          |            |      2,212 |         28 |        133 |      2,373 |
+| Total                                                                                          |            |      2,316 |         33 |        137 |      2,486 |
 +------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

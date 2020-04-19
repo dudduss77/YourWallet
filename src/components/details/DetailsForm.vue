@@ -48,18 +48,29 @@
 import ButtonComponent from "../reusable/ButtonComponent.vue";
 export default {
   name: "DetailsForm",
+  created() {
+    var tmpD = new Date();
+    this.searchSettings.toDate =
+      tmpD.getFullYear() +
+      "-" +
+      (tmpD.getMonth() > 8
+        ? tmpD.getMonth() + 1
+        : "0" + (tmpD.getMonth() + 1)) +
+      "-" +
+      tmpD.getDate();
+  },
   data() {
     return {
       searchSettings: {
         searchType: "det",
-        fromDate: "",
+        fromDate: "2018-01-01",
         toDate: ""
       }
     };
   },
   methods: {
     sendSearch() {
-      this.$emit('searchData', this.searchSettings);
+      this.$emit("searchData", this.searchSettings);
     }
   },
   components: {

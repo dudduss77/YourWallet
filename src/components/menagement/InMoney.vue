@@ -1,15 +1,14 @@
 <template>
-  <div class="editGoal">
-    <div class="editGoal__form">
-      <div class="editGoal__form__header">Edytuj</div>
-      <h3 class="editGoal__form__errMsg">{{errMsg}}</h3>
-      <input-block v-model="goalName" style="padding: 0" labelName="Nazwa celu" inputType="text" />
-      <input-block v-model="goalMoney" labelName="Ile do uzbierania" inputType="text" />
-      <button-component :buttonFunc="this.editGoal" class="editGoal__form__button" title="Zapisz" />
+  <div class="inMoney">
+    <div class="inMoney__form">
+      <div class="inMoney__form__header">Wpłać pieniądze</div>
+      <h3 class="inMoney__form__errMsg">{{errMsg}}</h3>
+      <input-block v-model="inputData" style="padding: 0" labelName="Kwota" inputType="text" />
+      <button-component :buttonFunc="depositMoney" class="inMoney__form__button" title="Wpłać" />
       <button-component
         :buttonFunc="this.cancelClick"
         style="margin-top: 0"
-        class="editGoal__form__button"
+        class="inMoney__form__button"
         title="Anuluj"
       />
     </div>
@@ -17,60 +16,60 @@
 </template>
 
 <script>
-import ButtonComponent from "../reusable/ButtonComponent.vue";
 import InputBlock from "../reusable/InputBlock.vue";
+import ButtonComponent from "../reusable/ButtonComponent.vue";
 import firebase from "firebase";
-
 export default {
-  name: "EditGoal",
+  name: "InMoney",
   props: {
     editValue: Object,
     uid: String
   },
   data() {
     return {
-      goalName: this.editValue.name,
-      goalMoney: this.editValue.allMoney,
-      id: this.editValue.id,
-      nowMoney: this.editValue.nowMoney,
+      inputData: "",
+      errMsg: "",
       userId: this.uid,
-      errMsg: ""
+      id: this.editValue.id
     };
+  },
+  components: {
+    InputBlock,
+    ButtonComponent
   },
   methods: {
     cancelClick() {
-      this.$emit("editGoal");
+      this.$emit("inMoney");
     },
-    editGoal() {
-      if (this.goalName && this.goalMoney && !isNaN(this.goalMoney)) {
-        //Api edycja celu
-        var thisVar = this;
-
+    depositMoney() {
+      var thisVar = this;
+      if (this.inputData && !isNaN(this.inputData)) {
         firebase
           .firestore()
           .collection("users")
           .doc(thisVar.userId)
           .collection("goal")
           .doc(thisVar.id)
-          .update({ name: thisVar.goalName, allMoney: thisVar.goalMoney })
+          .update({
+            nowMoney: (
+              parseFloat(thisVar.inputData) +
+              parseFloat(thisVar.editValue.nowMoney)
+            ).toString()
+          })
           .then(function() {
             thisVar.errMsg = "";
-            thisVar.$emit("editGoal");
+            thisVar.$emit("inMoney");
           });
       } else {
-        this.errMsg = "Wszystkie pola wymagane";
+        this.errMsg = "Podaj liczbę";
       }
     }
-  },
-  components: {
-    ButtonComponent,
-    InputBlock
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.editGoal {
+.inMoney {
   position: absolute;
   top: 0;
   left: 0;
@@ -101,9 +100,6 @@ export default {
       color: #ff0000;
       margin-top: 10px;
       height: 29px;
-    }
-    &__input {
-      padding: 0;
     }
     &__button {
       margin: 20px 0;
